@@ -105,7 +105,7 @@ $(document).ready(
 		
 		<a href="/blog/2016/04/15/gdbdbg/">
 		
-			Gdbdbg</a>
+			GDB</a>
 	</h2>
 	<div class="entry-content">
 		<h1>GDB Debug Symbols</h1>
@@ -113,16 +113,18 @@ $(document).ready(
 <ul>
 <li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
 <li>Can be part of the binary or a separate file</li>
-<li>GCC -ggdb to compile with debug symbols for gdb
-<img src="/images/gdbinfovar.png" alt="alt gdb-info-variables" /></li>
-<li>list will drop us to the main function if it has the source available</li>
-<li>list # will take you to that line of the source</li>
-<li>if compiled with dbg symbols info variables will display found variables under defined for the source file</li>
-<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols
-<img src="/images/gdbsymbols.png" alt="alt gdb-info-functions" /></li>
-<li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
+<li>GCC -ggdb to compile with debug symbols for gdb</li>
 </ul>
 
+
+<p><img src="/images/gdbinfovar.png" alt="gdb info variables" />
+  - list will drop us to the main function if it has the source available
+  - list # will take you to that line of the source
+  - if compiled with dbg symbols info variables will display found variables under defined for the source file
+  - if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</p>
+
+<p><img src="/images/gdbsymbols.png" alt="gdb info functions" />
+  - here we use info functions to display all functions found in the source with debug options given at compile time</p>
 
 		
 		
@@ -142,8 +144,14 @@ $(document).ready(
   
 
 
-<time datetime="2016-04-15T00:00:00-05:00" pubdate data-updated="true"></time></div>
+<time datetime="2016-04-15T12:54:38-05:00" pubdate data-updated="true"></time></div>
 	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>
+
+</div>
 
 
 	

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[a m4lefic security blog]]></title>
-  <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
+  <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
+  <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
   <updated>2016-04-15T13:53:38-05:00</updated>
   <id>http://ma11ock.github.io/</id>
@@ -27,13 +27,13 @@
 </ul>
 
 
-<p><img src="http://ma11ock.github.io/images/gdbinfovar.png" alt="gdb info variables" />
+<p><img src="/images/gdbinfovar.png" alt="gdb info variables" />
   - list will drop us to the main function if it has the source available
   - list # will take you to that line of the source
   - if compiled with dbg symbols info variables will display found variables under defined for the source file
   - if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</p>
 
-<p><img src="http://ma11ock.github.io/images/gdbsymbols.png" alt="gdb info functions" />
+<p><img src="/images/gdbsymbols.png" alt="gdb info functions" />
   - here we use info functions to display all functions found in the source with debug options given at compile time</p>
 ]]></content>
   </entry>
