@@ -108,14 +108,22 @@ $(document).ready(
 </ul>
 
 
-<p><img src="/images/gdbinfovar.png" alt="gdb info variables" />
-  - list will drop us to the main function if it has the source available
-  - list # will take you to that line of the source
-  - if compiled with dbg symbols info variables will display found variables under defined for the source file
-  - if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</p>
+<p><img src="/images/gdbinfovar.png" alt="gdb info variables" /></p>
 
-<p><img src="/images/gdbsymbols.png" alt="gdb info functions" />
-  - here we use info functions to display all functions found in the source with debug options given at compile time</p>
+<ul>
+<li>list will drop us to the main function if it has the source available</li>
+<li>list # will take you to that line of the source</li>
+<li>if compiled with dbg symbols info variables will display found variables under defined for the source file</li>
+<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</li>
+</ul>
+
+
+<p><img src="/images/gdbsymbols.png" alt="gdb info functions" /></p>
+
+<ul>
+<li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
+</ul>
+
 </div>
 
 
