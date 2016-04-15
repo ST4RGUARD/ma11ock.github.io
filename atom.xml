@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[My Octopress Blog]]></title>
+  <title><![CDATA[a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-15T12:42:19-05:00</updated>
+  <updated>2016-04-15T13:44:26-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[m4lefic]]></name>
     
   </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Gdbdbg]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/15/gdbdbg/"/>
+    <updated>2016-04-15T00:00:00-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
+    <content type="html"><![CDATA[<h1>GDB Debug Symbols</h1>
+
+<ul>
+<li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
+<li>Can be part of the binary or a separate file</li>
+<li>GCC -ggdb to compile with debug symbols for gdb
+<img src="http://ma11ock.github.io/images/gdbinfovar.png" alt="alt gdb-info-variables" /></li>
+<li>list will drop us to the main function if it has the source available</li>
+<li>list # will take you to that line of the source</li>
+<li>if compiled with dbg symbols info variables will display found variables under defined for the source file</li>
+<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols
+<img src="http://ma11ock.github.io/images/gdbsymbols.png" alt="alt gdb-info-functions" /></li>
+<li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
+</ul>
+
+]]></content>
+  </entry>
   
 </feed>
