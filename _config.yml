@@ -3,9 +3,9 @@
 # ----------------------- #
 
 url: http://ma11ock.github.io
-title: My Octopress Blog
-subtitle: A blogging framework for hackers.
-author: Your Name
+title: a m4lefic security blog
+subtitle: a collection of security interests for reference
+author: m4lefic
 simple_search: https://www.google.com/search
 description:
 
@@ -70,7 +70,7 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user:
+twitter_user: ma11ock
 twitter_tweet_button: true
 
 # Google +1
