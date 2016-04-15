@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-15T14:34:36-05:00</updated>
+  <updated>2016-04-15T14:37:21-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -30,11 +30,11 @@
 <p><img src="/images/gdbinfovar.png" alt="gdb info variables" /></p>
 
 <ul>
-<li><strong>list</strong>   <em>#will drop us to the main function if it has the source available</em></li>
-<li><strong>list 3</strong> <em>#will take you to that line of the source</em></li>
-<li><strong>info variables</strong> <em>#if compiled with dbg symbols  will display found variables under defined for the source file</em></li>
-<li><em>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</em></li>
-<li><strong>info scope functionName</strong> <em>#will provide local variables</em></li>
+<li><strong>list</strong> will drop us to the main function if it has the source available</li>
+<li><strong>list 3</strong> will take you to that line of the source</li>
+<li><strong>info variables</strong> if compiled with dbg symbols  will display found variables under defined for the source file</li>
+<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</li>
+<li><strong>info scope functionName</strong> will provide local variables</li>
 </ul>
 
 
@@ -48,8 +48,8 @@
 <h1>Stripping Debug Symbols</h1>
 
 <ul>
-<li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong>  <em>#used to strip debug symbols from a binary &amp; save symbols to file</em></li>
-<li><strong>strip &ndash;strip-debug binary</strong>                <em>#used to strip symbols from binary - use</em> <strong>&ndash;strip-uneeded</strong> <em>to provide only enough to load binary (less information)</em></li>
+<li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong> used to strip debug symbols from a binary &amp; save symbols to file</li>
+<li><strong>strip &ndash;strip-debug binary</strong> used to strip symbols from binary - use <strong>&ndash;strip-uneeded</strong> to provide only enough to load binary (less information)</li>
 </ul>
 
 
@@ -57,7 +57,7 @@
 
 <ul>
 <li><strong>symbol-file symbols</strong>   <em>#used to add debug symbols file to binary without symbols at runtime in</em> <strong>gdb</strong></li>
-<li><strong>objcopy -add-gnu-debuglink=debug_symbols binary</strong> <em>#used to add debug symbols to stripped binary where</em> <strong>debug_symbols</strong> <em>is the symbols file, and</em> <strong>binary</strong> <em>is the stripped binary</em></li>
+<li><strong>objcopy &ndash;add-gnu-debuglink=debug_symbols binary</strong> used to add debug symbols to stripped binary where<em> <strong>debug_symbols</strong> is the symbols file, and</em> <strong>binary</strong> is the stripped binary</li>
 </ul>
 
 ]]></content>
