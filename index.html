@@ -113,17 +113,18 @@ $(document).ready(
 <ul>
 <li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
 <li>Can be part of the binary or a separate file</li>
-<li>GCC -ggdb to compile with debug symbols for gdb</li>
+<li>GCC <strong>-ggdb</strong> to compile with debug symbols for gdb</li>
 </ul>
 
 
 <p><img src="/images/gdbinfovar.png" alt="gdb info variables" /></p>
 
 <ul>
-<li>list will drop us to the main function if it has the source available</li>
-<li>list # will take you to that line of the source</li>
-<li>if compiled with dbg symbols info variables will display found variables under defined for the source file</li>
-<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</li>
+<li><strong>list</strong>   <em>#will drop us to the main function if it has the source available</em></li>
+<li><strong>list 3</strong> <em>#will take you to that line of the source</em></li>
+<li><strong>info variables</strong> <em>#if compiled with dbg symbols  will display found variables under defined for the source file</em></li>
+<li><em>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</em></li>
+<li><strong>info scope functionName</strong> <em>#will provide local variables</em></li>
 </ul>
 
 
@@ -131,6 +132,22 @@ $(document).ready(
 
 <ul>
 <li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
+</ul>
+
+
+<h1>Stripping Debug Symbols</h1>
+
+<ul>
+<li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong>  <em>#used to strip debug symbols from a binary &amp; save symbols to file</em></li>
+<li><strong>strip &ndash;strip-debug binary</strong>                <em>#used to strip symbols from binary - use</em> <strong>&ndash;strip-uneeded</strong> <em>to provide only enough to load binary (less information)</em></li>
+</ul>
+
+
+<h1>Adding Debug Symbols</h1>
+
+<ul>
+<li><strong>symbol-file symbols</strong>   <em>#used to add debug symbols file to binary without symbols at runtime in</em> <strong>gdb</strong></li>
+<li><strong>objcopy -add-gnu-debuglink=debug_symbols binary</strong> <em>#used to add debug symbols to stripped binary where</em> <strong>debug_symbols</strong> <em>is the symbols file, and</em> <strong>binary</strong> <em>is the stripped binary</em></li>
 </ul>
 
 
@@ -157,7 +174,7 @@ $(document).ready(
 
 <div class="tags">
 
-	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>
+	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>, <a class='category' href='/blog/categories/objcopy/'>objcopy</a>, <a class='category' href='/blog/categories/strip/'>strip</a>
 
 </div>
 
