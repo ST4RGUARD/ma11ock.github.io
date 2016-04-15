@@ -1,0 +1,18 @@
+---
+layout: post
+title: "GDB"
+date: 2016-04-15 12:54:38 -0500
+comments: true
+categories: "gdb", "debugger"
+---
+# GDB Debug Symbols
+  - Gives various information about variables, functions, etc in a binary that can be read by the debugger
+  - Can be part of the binary or a separate file
+  - GCC -ggdb to compile with debug symbols for gdb
+![alt gdb-info-variables](/images/gdbinfovar.png)
+  - list will drop us to the main function if it has the source available
+  - list # will take you to that line of the source
+  - if compiled with dbg symbols info variables will display found variables under defined for the source file
+  - if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols
+![alt gdb-info-functions](/images/gdbsymbols.png)
+  - here we use info functions to display all functions found in the source with debug options given at compile time
