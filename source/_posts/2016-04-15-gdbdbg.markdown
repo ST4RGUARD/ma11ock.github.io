@@ -3,20 +3,29 @@ layout: post
 title: "GDB"
 date: 2016-04-15 12:54:38 -0500
 comments: true
-categories: [gdb, debugger]
+categories: [gdb, debugger, objcopy, strip]
 ---
-# GDB Debug Symbols
+## GDB Debug Symbols
   - Gives various information about variables, functions, etc in a binary that can be read by the debugger
   - Can be part of the binary or a separate file
-  - GCC -ggdb to compile with debug symbols for gdb
+  - **gcc -ggdb** to compile with debug symbols for gdb
 
 ![gdb info variables](/images/gdbinfovar.png)
 
-  - list will drop us to the main function if it has the source available
-  - list # will take you to that line of the source
-  - if compiled with dbg symbols info variables will display found variables under defined for the source file
+  - **list** will drop us to the main function if it has the source available
+  - **list 3** will take you to that line of the source
+  - **info variables** if compiled with dbg symbols  will display found variables under defined for the source file
   - if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols
+  - **info scope functionName** will provide local variables
 
 ![gdb info functions](/images/gdbsymbols.png)
 
   - here we use info functions to display all functions found in the source with debug options given at compile time
+
+## Stripping Debug Symbols
+  - **objcopy --only-keep-debug binary dstfile** used to strip debug symbols from a binary & save symbols to file
+  - **strip --strip-debug binary** used to strip symbols from binary - use **--strip-uneeded** to provide only enough to load binary (less information)
+
+## Adding Debug Symbols
+  - **symbol-file symbols** used to add debug symbols file to binary without symbols at runtime in **gdb**
+  - **objcopy --add-gnu-debuglink=debug_symbols binary** used to add debug symbols to stripped binary where **debug_symbols** is the symbols file, and **binary** is the stripped binary
