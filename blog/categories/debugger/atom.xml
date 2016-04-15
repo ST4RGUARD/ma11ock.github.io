@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-15T14:37:21-05:00</updated>
+  <updated>2016-04-15T14:37:56-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -45,7 +45,7 @@
 </ul>
 
 
-<h1>Stripping Debug Symbols</h1>
+<h2>Stripping Debug Symbols</h2>
 
 <ul>
 <li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong> used to strip debug symbols from a binary &amp; save symbols to file</li>
@@ -53,7 +53,7 @@
 </ul>
 
 
-<h1>Adding Debug Symbols</h1>
+<h2>Adding Debug Symbols</h2>
 
 <ul>
 <li><strong>symbol-file symbols</strong>   <em>#used to add debug symbols file to binary without symbols at runtime in</em> <strong>gdb</strong></li>
