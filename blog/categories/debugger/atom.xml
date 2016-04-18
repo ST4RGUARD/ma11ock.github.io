@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T10:36:17-05:00</updated>
+  <updated>2016-04-18T10:42:00-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -22,16 +22,14 @@
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
 
-<ul>
-<li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
-<li>Can be part of the binary or a separate file</li>
-</ul>
-
+<p>  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
+  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.</p>
 
 <!--more-->
 
 
 <ul>
+<li>can be part of the binary or a separate file</li>
 <li><strong>gcc -ggdb</strong> to compile with debug symbols for gdb</li>
 </ul>
 
