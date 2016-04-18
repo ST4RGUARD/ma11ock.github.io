@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objcopy | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/objcopy/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T10:35:31-05:00</updated>
+  <updated>2016-04-18T10:36:17-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -20,9 +20,13 @@
     <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
     <content type="html"><![CDATA[<h2>GDB Debug Symbols</h2>
 
-<p><em>Notes and material referenced from SecurityTube GDB Primer</em>
-  - Gives various information about variables, functions, etc in a binary that can be read by the debugger
-  - Can be part of the binary or a separate file</p>
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
+
+<ul>
+<li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
+<li>Can be part of the binary or a separate file</li>
+</ul>
+
 
 <!--more-->
 
