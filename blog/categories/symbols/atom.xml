@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: gdb | a m4lefic security blog]]></title>
-  <link href="http://ma11ock.github.io/blog/categories/gdb/atom.xml" rel="self"/>
+  <title><![CDATA[Category: symbols | a m4lefic security blog]]></title>
+  <link href="http://ma11ock.github.io/blog/categories/symbols/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
   <updated>2016-04-18T11:58:03-05:00</updated>
   <id>http://ma11ock.github.io/</id>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NM]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/18/nm/"/>
+    <updated>2016-04-18T11:33:42-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/18/nm</id>
+    <content type="html"><![CDATA[<h2>NM</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs</em></p>
+
+<p>This section will cover the GNU utility NM. nm lists symbols from object files. It can give us
+a quick way to analyze different debug symbols in a binary.</p>
+
+<!--more-->
+
+
+<ul>
+<li>the output is split into 3 columns by default <strong>Virtual Address</strong> <strong>Symbol Type</strong> <strong>Symbol Name</strong></li>
+</ul>
+
+
+<p><img src="/images/nmsymboltype.png" alt="nm symbol types" /></p>
+
+<ul>
+<li><strong>lower case</strong> letter is a <strong>local</strong> symbol</li>
+<li><strong>upper case</strong> letter is an <strong>external</strong> symbol</li>
+</ul>
+
+
+<p>  common nm usage can be seen below
+  - <strong>nm exe</strong>
+  - <strong>nm -a calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays all symbols and we can grep for specific function</em>
+  - <strong>nm -n calc_DEBUG</strong>                  <em>displays a list of all symbols sorted by address</em>
+  - <strong>nm -g calc_DEBUG</strong>                  <em>displays a list of external symbols</em>
+  - <strong>nm -S calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays the size in bytes of reserved memory</em></p>
+
+<p><img src="/images/nmusage.png" alt="nm usage examples" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDB]]></title>

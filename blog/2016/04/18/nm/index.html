@@ -5,7 +5,7 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>collection of security interests  | a m4lefic security blog</title>
+	<title>NM  | a m4lefic security blog</title>
 
 <meta name="author" content="m4lefic"> 
 
@@ -96,28 +96,40 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2016/04/18/nm/">
-		
-			NM</a>
-	</h2>
-	<div class="entry-content">
-		<h2>NM</h2>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">NM</h2>
+	<div class="entry-content"><h2>NM</h2>
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs</em></p>
 
 <p>This section will cover the GNU utility NM. nm lists symbols from object files. It can give us
 a quick way to analyze different debug symbols in a binary.</p>
 
+<!--more-->
 
-		
-		<a href="/blog/2016/04/18/nm/" class="more-link">Read on &rarr;</a>
-	</div>
+
+<ul>
+<li>the output is split into 3 columns by default <strong>Virtual Address</strong> <strong>Symbol Type</strong> <strong>Symbol Name</strong></li>
+</ul>
+
+
+<p><img src="/images/nmsymboltype.png" alt="nm symbol types" /></p>
+
+<ul>
+<li><strong>lower case</strong> letter is a <strong>local</strong> symbol</li>
+<li><strong>upper case</strong> letter is an <strong>external</strong> symbol</li>
+</ul>
+
+
+<p>  common nm usage can be seen below
+  - <strong>nm exe</strong>
+  - <strong>nm -a calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays all symbols and we can grep for specific function</em>
+  - <strong>nm -n calc_DEBUG</strong>                  <em>displays a list of all symbols sorted by address</em>
+  - <strong>nm -g calc_DEBUG</strong>                  <em>displays a list of external symbols</em>
+  - <strong>nm -S calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays the size in bytes of reserved memory</em></p>
+
+<p><img src="/images/nmusage.png" alt="nm usage examples" /></p>
+</div>
 
 
 <div class="meta">
@@ -146,59 +158,20 @@ a quick way to analyze different debug symbols in a binary.</p>
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2016/04/15/gdbdbg/">
-		
-			GDB</a>
-	</h2>
-	<div class="entry-content">
-		<h2>GDB Debug Symbols</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
-
-<p>  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
-  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.</p>
-
-
-		
-		<a href="/blog/2016/04/15/gdbdbg/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-04-15T12:54:38-05:00" pubdate data-updated="true"></time></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>, <a class='category' href='/blog/categories/objcopy/'>objcopy</a>, <a class='category' href='/blog/categories/strip/'>strip</a>, <a class='category' href='/blog/categories/symbols/'>symbols</a>
-
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
+</div>
 	<footer id="footer" class="inner">Copyright &copy; 2016
 
     m4lefic
