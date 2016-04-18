@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T15:21:23-05:00</updated>
+  <updated>2016-04-18T15:23:46-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -14,14 +14,14 @@
 
   
   <entry>
-    <title type="html"><![CDATA[strace]]></title>
+    <title type="html"><![CDATA[STRACE]]></title>
     <link href="http://ma11ock.github.io/blog/2016/04/18/strace/"/>
     <updated>2016-04-18T14:11:51-05:00</updated>
     <id>http://ma11ock.github.io/blog/2016/04/18/strace</id>
     <content type="html"><![CDATA[<h2>strace</h2>
 
-<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; strace man page</em>
-<em>may need to</em> <strong>apt-get install strace</strong> <em>on kali linux</em></p>
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em>
+- note: <em>strace man page may need to</em> <strong>apt-get install strace</strong> <em>on kali linux</em></p>
 
 <p>This section will cover the strace utility. Strace runs against the command or executable given. It intercepts the system calls
 for these processes and records them. This provides very useful diagnostic, and debugging to the user as well as the ability to profile programs.</p>
