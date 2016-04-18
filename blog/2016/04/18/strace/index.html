@@ -5,12 +5,12 @@
 	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
 	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
 	<meta charset="utf-8">
-	<title>collection of security interests  | a m4lefic security blog</title>
+	<title>strace  | a m4lefic security blog</title>
 
 <meta name="author" content="m4lefic"> 
 
 <meta name="description" content="strace Notes and material referenced from SecurityTube GDB Primer &amp; strace man page
-may need to apt-get install strace on kali linux This &hellip;"> <meta name="keywords" content="">
+may need to apt-get install strace on kali linux This section &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -97,18 +97,9 @@ $(document).ready(
 
 </header>
 
-	<div id="content" class="inner">
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2016/04/18/strace/">
-		
-			Strace</a>
-	</h2>
-	<div class="entry-content">
-		<h2>strace</h2>
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">Strace</h2>
+	<div class="entry-content"><h2>strace</h2>
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer &amp; strace man page</em>
 <em>may need to</em> <strong>apt-get install strace</strong> <em>on kali linux</em></p>
@@ -116,10 +107,54 @@ $(document).ready(
 <p>This section will cover the strace utility. Strace runs against the command or executable given. It intercepts the system calls
 for these processes and records them. This provides very useful diagnostic, and debugging to the user as well as the ability to profile programs.</p>
 
+<!--more-->
 
-		
-		<a href="/blog/2016/04/18/strace/" class="more-link">Read on &rarr;</a>
-	</div>
+
+<ul>
+<li><strong>usage:</strong> strace executable args</li>
+<li>system calls are displayed as they relate to our program line by line</li>
+<li><strong>-r</strong> is a relative timestamp that gives insight into how long each sys call takes</li>
+</ul>
+
+
+<p><img src="/images/stracertimestamp.png" alt="strace -r" /></p>
+
+<ul>
+<li>if we are interested in specific system calls or multiple calls in the executable</li>
+<li><strong>strace -e connect,write binary args</strong></li>
+</ul>
+
+
+<p><img src="/images/stracemultisyscall.png" alt="strace specific/multi sys calls" /></p>
+
+<ul>
+<li>we can also monitor sys calls of a running process</li>
+<li><strong>nc google.com 80</strong></li>
+</ul>
+
+
+<p><img src="/images/stracenc.png" alt="strace netcat example" /></p>
+
+<ul>
+<li>we netcat google on port 80</li>
+<li>we then grab the process ID of the running process &amp; then run strace on that PID</li>
+<li><strong>ps ax|grep nc</strong></li>
+<li><strong>strace -p PID</strong></li>
+</ul>
+
+
+<p><img src="/images/straceprocattach.png" alt="strace active process" /></p>
+
+<ul>
+<li>strace now says process 6697 attached, and is waiting</li>
+<li><p>if we enter <strong>GET /</strong> as seen in our netcat example picture - all of the sys calls used to perform that request are displayed in the above pic</p></li>
+<li><p>we can print a statistical summary of all the sys calls made</p></li>
+<li><strong>strace -c binary args</strong></li>
+</ul>
+
+
+<p><img src="/images/stracesummary.png" alt="strace sys call summary" /></p>
+</div>
 
 
 <div class="meta">
@@ -148,107 +183,20 @@ for these processes and records them. This provides very useful diagnostic, and 
 	
 </div></article>
 
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2016/04/18/nm/">
-		
-			NM</a>
-	</h2>
-	<div class="entry-content">
-		<h2>NM</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs</em></p>
-
-<p>This section will cover the GNU utility NM. NM lists symbols from object files. It can give us
-a quick way to analyze different debug symbols in a binary.</p>
-
-
-		
-		<a href="/blog/2016/04/18/nm/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-04-18T11:33:42-05:00" pubdate data-updated="true"></time></div>
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
 	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/nm/'>nm</a>, <a class='category' href='/blog/categories/symbols/'>symbols</a>
-
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
 </div>
 
 
-	
-</div></article>
-
-
-    <article class="post">
-	<h2 class="title">
-		
-		<a href="/blog/2016/04/15/gdbdbg/">
-		
-			GDB</a>
-	</h2>
-	<div class="entry-content">
-		<h2>GDB Debug Symbols</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
-
-<p>  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
-  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.</p>
-
-
-		
-		<a href="/blog/2016/04/15/gdbdbg/" class="more-link">Read on &rarr;</a>
-	</div>
-
-
-<div class="meta">
-	<div class="date">
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2016-04-15T12:54:38-05:00" pubdate data-updated="true"></time></div>
-	
-
-<div class="tags">
-
-	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>, <a class='category' href='/blog/categories/objcopy/'>objcopy</a>, <a class='category' href='/blog/categories/strip/'>strip</a>, <a class='category' href='/blog/categories/symbols/'>symbols</a>
-
 </div>
-
-
-	
-</div></article>
-
-<nav id="pagenavi">
-    
-    
-    <div class="center"><a href="/archives">Blog Archives</a></div>
-</nav></div>
 	<footer id="footer" class="inner">Copyright &copy; 2016
 
     m4lefic

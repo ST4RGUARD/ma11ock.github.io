@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: strace | a m4lefic security blog]]></title>
+  <link href="http://ma11ock.github.io/blog/categories/strace/atom.xml" rel="self"/>
+  <link href="http://ma11ock.github.io/"/>
+  <updated>2016-04-18T15:21:23-05:00</updated>
+  <id>http://ma11ock.github.io/</id>
+  <author>
+    <name><![CDATA[m4lefic]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[strace]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/18/strace/"/>
+    <updated>2016-04-18T14:11:51-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/18/strace</id>
+    <content type="html"><![CDATA[<h2>strace</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; strace man page</em>
+<em>may need to</em> <strong>apt-get install strace</strong> <em>on kali linux</em></p>
+
+<p>This section will cover the strace utility. Strace runs against the command or executable given. It intercepts the system calls
+for these processes and records them. This provides very useful diagnostic, and debugging to the user as well as the ability to profile programs.</p>
+
+<!--more-->
+
+
+<ul>
+<li><strong>usage:</strong> strace executable args</li>
+<li>system calls are displayed as they relate to our program line by line</li>
+<li><strong>-r</strong> is a relative timestamp that gives insight into how long each sys call takes</li>
+</ul>
+
+
+<p><img src="/images/stracertimestamp.png" alt="strace -r" /></p>
+
+<ul>
+<li>if we are interested in specific system calls or multiple calls in the executable</li>
+<li><strong>strace -e connect,write binary args</strong></li>
+</ul>
+
+
+<p><img src="/images/stracemultisyscall.png" alt="strace specific/multi sys calls" /></p>
+
+<ul>
+<li>we can also monitor sys calls of a running process</li>
+<li><strong>nc google.com 80</strong></li>
+</ul>
+
+
+<p><img src="/images/stracenc.png" alt="strace netcat example" /></p>
+
+<ul>
+<li>we netcat google on port 80</li>
+<li>we then grab the process ID of the running process &amp; then run strace on that PID</li>
+<li><strong>ps ax|grep nc</strong></li>
+<li><strong>strace -p PID</strong></li>
+</ul>
+
+
+<p><img src="/images/straceprocattach.png" alt="strace active process" /></p>
+
+<ul>
+<li>strace now says process 6697 attached, and is waiting</li>
+<li><p>if we enter <strong>GET /</strong> as seen in our netcat example picture - all of the sys calls used to perform that request are displayed in the above pic</p></li>
+<li><p>we can print a statistical summary of all the sys calls made</p></li>
+<li><strong>strace -c binary args</strong></li>
+</ul>
+
+
+<p><img src="/images/stracesummary.png" alt="strace sys call summary" /></p>
+]]></content>
+  </entry>
+  
+</feed>
