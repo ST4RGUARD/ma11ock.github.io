@@ -3,11 +3,16 @@ layout: post
 title: "GDB"
 date: 2016-04-15 12:54:38 -0500
 comments: true
-categories: [gdb, debugger, objcopy, strip]
+categories: [gdb, debugger, objcopy, strip, symbols]
 ---
 ## GDB Debug Symbols
-  - Gives various information about variables, functions, etc in a binary that can be read by the debugger
-  - Can be part of the binary or a separate file
+*Notes and material referenced from SecurityTube GDB Primer*
+
+  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
+  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.
+
+<!--more-->
+  - can be part of the binary or a separate file
   - **gcc -ggdb** to compile with debug symbols for gdb
 
 ![gdb info variables](/images/gdbinfovar.png)
