@@ -9,7 +9,7 @@
 
 <meta name="author" content="m4lefic"> 
 
-<meta name="description" content="NM Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs This section will cover the GNU utility NM. nm lists symbols &hellip;"> <meta name="keywords" content="">
+<meta name="description" content="NM Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs This section will cover the GNU utility NM. NM lists symbols &hellip;"> <meta name="keywords" content="">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -102,7 +102,7 @@ $(document).ready(
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU Binutils docs</em></p>
 
-<p>This section will cover the GNU utility NM. nm lists symbols from object files. It can give us
+<p>This section will cover the GNU utility NM. NM lists symbols from object files. It can give us
 a quick way to analyze different debug symbols in a binary.</p>
 
 <!--more-->
@@ -121,12 +121,16 @@ a quick way to analyze different debug symbols in a binary.</p>
 </ul>
 
 
-<p>  common nm usage can be seen below
-  - <strong>nm exe</strong>
-  - <strong>nm -a calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays all symbols and we can grep for specific function</em>
-  - <strong>nm -n calc_DEBUG</strong>                  <em>displays a list of all symbols sorted by address</em>
-  - <strong>nm -g calc_DEBUG</strong>                  <em>displays a list of external symbols</em>
-  - <strong>nm -S calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays the size in bytes of reserved memory</em></p>
+<h2>Common Usage</h2>
+
+<ul>
+<li><strong>nm exe</strong></li>
+<li><strong>nm -a calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays all symbols and we can grep for specific function</em></li>
+<li><strong>nm -n calc_DEBUG</strong>                  <em>displays a list of all symbols sorted by address</em></li>
+<li><strong>nm -g calc_DEBUG</strong>                  <em>displays a list of external symbols</em></li>
+<li><strong>nm -S calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays the size in bytes of reserved memory</em></li>
+</ul>
+
 
 <p><img src="/images/nmusage.png" alt="nm usage examples" /></p>
 </div>
