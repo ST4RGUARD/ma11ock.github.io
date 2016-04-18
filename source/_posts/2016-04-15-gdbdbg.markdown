@@ -5,7 +5,7 @@ date: 2016-04-15 12:54:38 -0500
 comments: true
 categories: [gdb, debugger, objcopy, strip, symbols]
 ---
-## GDB Debug Symbols
+## gdb debug symbols
 *Notes and material referenced from SecurityTube GDB Primer*
 
   This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
@@ -27,10 +27,10 @@ categories: [gdb, debugger, objcopy, strip, symbols]
 
   - here we use info functions to display all functions found in the source with debug options given at compile time
 
-## Stripping Debug Symbols
+## stripping debug symbols
   - **objcopy --only-keep-debug binary dstfile** used to strip debug symbols from a binary & save symbols to file
   - **strip --strip-debug binary** used to strip symbols from binary - use **--strip-uneeded** to provide only enough to load binary (less information)
 
-## Adding Debug Symbols
+## adding debug symbols
   - **symbol-file symbols** used to add debug symbols file to binary without symbols at runtime in **gdb**
   - **objcopy --add-gnu-debuglink=debug_symbols binary** used to add debug symbols to stripped binary where **debug_symbols** is the symbols file, and **binary** is the stripped binary

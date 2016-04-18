@@ -5,7 +5,7 @@ date: 2016-04-18 11:33:42 -0500
 comments: true
 categories: [NM, symbols, debugger]
 ---
-## NM
+## nm
 *Notes and material referenced from SecurityTube GDB Primer & GNU Binutils docs*
 
 This section will cover the GNU utility NM. NM lists symbols from object files. It can give us
@@ -20,7 +20,7 @@ a quick way to analyze different debug symbols in a binary.
   - **lower case** letter is a **local** symbol
   - **upper case** letter is an **external** symbol
 
-## Common Usage
+## common usage
   - **nm exe**
   - **nm -a calc_DEBUG|grep 'function'**  *displays all symbols and we can grep for specific function*
   - **nm -n calc_DEBUG**                  *displays a list of all symbols sorted by address*

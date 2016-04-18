@@ -8,7 +8,7 @@ categories: [strace, debugger, syscalls]
 ## strace
 *Notes and material referenced from SecurityTube GDB Primer*
 
-- note: *strace man page may need to* **apt-get install strace** *on kali linux*
+- *strace man page may need to* **apt-get install strace** *on kali linux*
 
 This section will cover the strace utility. Strace runs against the command or executable given. It intercepts the system calls
 for these processes and records them. This provides very useful diagnostic, and debugging to the user as well as the ability to profile programs.
