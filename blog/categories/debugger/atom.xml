@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T12:00:04-05:00</updated>
+  <updated>2016-04-18T12:04:35-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -29,7 +29,7 @@ a quick way to analyze different debug symbols in a binary.</p>
 
 
 <ul>
-<li>the output is split into 3 columns by default <strong>Virtual Address</strong> <strong>Symbol Type</strong> <strong>Symbol Name</strong></li>
+<li>the output is split into 3 columns by default <strong>Virtual Address</strong> | <strong>Symbol Type</strong> | <strong>Symbol Name</strong></li>
 </ul>
 
 
@@ -49,6 +49,8 @@ a quick way to analyze different debug symbols in a binary.</p>
 <li><strong>nm -n calc_DEBUG</strong>                  <em>displays a list of all symbols sorted by address</em></li>
 <li><strong>nm -g calc_DEBUG</strong>                  <em>displays a list of external symbols</em></li>
 <li><strong>nm -S calc_DEBUG|grep &lsquo;function&rsquo;</strong>  <em>displays the size in bytes of reserved memory</em></li>
+<li><strong>nm calc_DEBUG|grep &lsquo;B &rsquo;</strong>           <em>displays the uninitialized data</em></li>
+<li><strong>nm calc_DEBUG|grep &rsquo;D &lsquo;</strong>           <em>displays the initialized data</em></li>
 </ul>
 
 
