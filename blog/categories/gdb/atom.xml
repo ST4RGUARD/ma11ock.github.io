@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gdb | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/gdb/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T15:25:40-05:00</updated>
+  <updated>2016-04-18T15:29:44-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -18,7 +18,7 @@
     <link href="http://ma11ock.github.io/blog/2016/04/15/gdbdbg/"/>
     <updated>2016-04-15T12:54:38-05:00</updated>
     <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
-    <content type="html"><![CDATA[<h2>GDB Debug Symbols</h2>
+    <content type="html"><![CDATA[<h2>gdb debug symbols</h2>
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
 
@@ -52,7 +52,7 @@
 </ul>
 
 
-<h2>Stripping Debug Symbols</h2>
+<h2>stripping debug symbols</h2>
 
 <ul>
 <li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong> used to strip debug symbols from a binary &amp; save symbols to file</li>
@@ -60,7 +60,7 @@
 </ul>
 
 
-<h2>Adding Debug Symbols</h2>
+<h2>adding debug symbols</h2>
 
 <ul>
 <li><strong>symbol-file symbols</strong> used to add debug symbols file to binary without symbols at runtime in <strong>gdb</strong></li>
