@@ -4,7 +4,7 @@
   <title><![CDATA[a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T09:59:00-05:00</updated>
+  <updated>2016-04-18T10:35:31-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -20,11 +20,9 @@
     <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
     <content type="html"><![CDATA[<h2>GDB Debug Symbols</h2>
 
-<ul>
-<li>Gives various information about variables, functions, etc in a binary that can be read by the debugger</li>
-<li>Can be part of the binary or a separate file</li>
-</ul>
-
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em>
+  - Gives various information about variables, functions, etc in a binary that can be read by the debugger
+  - Can be part of the binary or a separate file</p>
 
 <!--more-->
 
