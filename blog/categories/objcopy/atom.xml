@@ -4,7 +4,7 @@
   <title><![CDATA[Category: objcopy | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/objcopy/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-18T15:29:44-05:00</updated>
+  <updated>2016-04-18T15:36:09-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[GDB]]></title>
     <link href="http://ma11ock.github.io/blog/2016/04/15/gdbdbg/"/>
-    <updated>2016-04-15T12:54:38-05:00</updated>
+    <updated>2016-04-15T07:54:38-05:00</updated>
     <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
     <content type="html"><![CDATA[<h2>gdb debug symbols</h2>
 
