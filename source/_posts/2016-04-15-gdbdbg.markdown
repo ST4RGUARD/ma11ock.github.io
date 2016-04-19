@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "GDB"
-date: 2016-04-15 12:54:38 -0500
+date: 2016-04-15 12:54:38
 comments: true
 categories: [gdb, debugger, objcopy, strip, symbols]
 ---
