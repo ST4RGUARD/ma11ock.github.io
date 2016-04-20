@@ -113,14 +113,22 @@ $(document).ready(
 </ul>
 
 
-<p>  if we re-run our program, execution is paused when the breakpoint is hit. to see our argument&rsquo;s contents we can
-  - <strong>print argv[1]</strong>
-  - <strong>x/5c argv[1]</strong> <em>or we can examine the memory as 5 character with each byte displayed as hex and the terminating null character displayed as well</em></p>
+<p>  if we re-run our program, execution is paused when the breakpoint is hit. to see our argument&rsquo;s contents we can</p>
+
+<ul>
+<li><strong>print argv[1]</strong></li>
+<li><strong>x/5c argv[1]</strong> <em>or we can examine the memory as 5 character with each byte displayed as hex and the terminating null character displayed as well</em></li>
+</ul>
+
 
 <p><img src="/images/gdbsetarg.png" alt="gdb examine argument" /></p>
 
-<p>  to change a character at that address we can
-  - <strong>set {char} address = &lsquo;B&rsquo;</strong> <em>now TEST becomes BEST - **set {int} (address+4) = 1 here we modify null and change it to an integer so BEST\x00 becomes BEST1</em></p>
+<p>  to change a character at that address we can</p>
+
+<ul>
+<li><strong>set {char} address = &lsquo;B&rsquo;</strong> <em>now TEST becomes BEST - **set {int} (address+4) = 1 here we modify null and change it to an integer so BEST\x00 becomes BEST1</em></li>
+</ul>
+
 
 <p><img src="/images/gdbsetradix.png" alt="gdb set radix" /></p>
 
