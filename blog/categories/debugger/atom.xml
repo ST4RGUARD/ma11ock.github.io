@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T09:39:53-05:00</updated>
+  <updated>2016-04-20T13:52:47-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -12,6 +12,95 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GDB]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/19/gdb/"/>
+    <updated>2016-04-19T15:37:03-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/19/gdb</id>
+    <content type="html"><![CDATA[<h2>gdb breakpoints</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation</em></p>
+
+<p>  This section will discuss breakpoints in gdb. A breakpoint pauses the execution of a program, and
+  gives the user the ability to inspect and modify registers and memory while the program is paused.</p>
+
+<!--more-->
+
+
+<h2>setting breakpoints</h2>
+
+<p>  let&rsquo;s inspect a program</p>
+
+<ul>
+<li><strong>gdb ./program</strong></li>
+<li><strong>run &ldquo;args&rdquo;</strong>  <em>runs program with arguments</em></li>
+</ul>
+
+
+<p>  let&rsquo;s see what happens with our main function. we can run any of the following</p>
+
+<ul>
+<li><strong>break main</strong></li>
+<li><strong>break lineno</strong></li>
+<li><strong>break *address</strong></li>
+</ul>
+
+
+<p>  to get the address of main we can run</p>
+
+<ul>
+<li><strong>p &amp;main</strong></li>
+<li><strong>info address main</strong></li>
+</ul>
+
+
+<p>  however if we run <strong>break main</strong> we will get a different address than what is given from running the above commands. we will in fact get
+  dumped into our main function at our echo function call that reads in our user input - as the address to set the breakpoint</p>
+
+<p>  to view any breakpoints set</p>
+
+<ul>
+<li>info breakpoints  <em>disable 1 or delete 1 allows us to modify our first breakpoint</em></li>
+</ul>
+
+
+<p><img src="/images/gdbreak1.png" alt="gdb set breakpoint" /></p>
+
+<p>  let&rsquo;s re-enable our breakpoint. if we re-run our program with our breakpoint set <strong>run &ldquo;ImArg&rdquo;</strong> our program will pause at our breakpoint.
+  if we want to look at that arg in our main function we can <strong>examine memory</strong></p>
+
+<ul>
+<li><strong>print argv[1]</strong> <em>help x will give a list of helpful commands to inspect this further</em></li>
+<li><strong>x/s argv[1]</strong> <em>if we want to look at 1 item and print it as a string this would be the notation</em></li>
+<li><strong>x/2s argv[0]</strong> <em>above the 1 is not needed in front of the s for 1 item, however here if we want 2 items printed from argv[0] the number 2 is needed</em></li>
+</ul>
+
+
+<p><img src="/images/gdbexaminemem.png" alt="gdb examine memory" /></p>
+
+<p>  let&rsquo;s look more closely at the main function *similarly we could disassemble an address or</p>
+
+<ul>
+<li><strong>dis main</strong> <em>will disassemble the main function</em> <strong>=></strong> <em>symbol points to the EIP register</em></li>
+<li><strong>x/i address</strong> <em>will show the assembly instruction for that 1 specific address</em></li>
+<li><strong>x/10i address</strong> <em>this will show instructions for 10 addresses starting with the one given</em></li>
+<li><strong>x/10xw $esp</strong> <em>this will print 10 hex words starting from the top of the stack - the ESP register</em></li>
+</ul>
+
+
+<p><img src="/images/gdbdis.png" alt="gdb dissasemble" /></p>
+
+<ul>
+<li><strong>CTRL-L</strong> <em>in my Ubuntu Linux distro clears the screen within gdb</em></li>
+</ul>
+
+
+<p>  <strong>step</strong> &amp; <strong>stepi</strong> help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
+
+<p><img src="/images/gdbstep.png" alt="gdb step" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[STRACE]]></title>
