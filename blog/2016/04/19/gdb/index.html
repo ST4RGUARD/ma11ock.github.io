@@ -1,0 +1,242 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>GDB  | a m4lefic security blog</title>
+
+<meta name="author" content="m4lefic"> 
+
+<meta name="description" content="gdb breakpoints Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation This section will discuss breakpoints in gdb. &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="a m4lefic security blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">a m4lefic security blog</a></h1>
+<h4>collection of security interests</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/portfolio">Portfolio</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/portfolio">Portfolio</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:ma11ock.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">GDB</h2>
+	<div class="entry-content"><h2>gdb breakpoints</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation</em></p>
+
+<p>  This section will discuss <strong>breakpoints</strong> in gdb. A breakpoint pauses the execution of a program, and
+  gives the user the ability to inspect and modify registers and memory while the program is paused.</p>
+
+<!--more-->
+
+
+<h2>setting breakpoints</h2>
+
+<p>  let&rsquo;s inspect a program</p>
+
+<ul>
+<li><strong>gdb ./program</strong></li>
+<li><strong>run &ldquo;args&rdquo;</strong>  <em>runs program with arguments</em></li>
+</ul>
+
+
+<p>  let&rsquo;s see what happens with our main function
+  we can run any of the following</p>
+
+<ul>
+<li><strong>break main</strong></li>
+<li><strong>break lineno</strong></li>
+<li><strong>break *address</strong></li>
+</ul>
+
+
+<p>  to get the address of main we can run</p>
+
+<ul>
+<li><strong>p &amp;main</strong></li>
+<li><strong>info address main</strong></li>
+</ul>
+
+
+<p>  however if we run <strong>break main</strong> we will get a different address than what is given from running the above commands. we will in fact get
+  dumped into our main function at our echo function call that reads in our user input - as the address to set the breakpoint</p>
+
+<p>  to view any breakpoints set</p>
+
+<ul>
+<li>info breakpoints  <em>disable 1 or delete 1 allows us to modify our first breakpoint</em></li>
+</ul>
+
+
+<p><img src="/images/gdbreak1.png" alt="gdb set breakpoint" /></p>
+
+<p>  let&rsquo;s re-enable our breakpoint. if we re-run our program with our breakpoint set <strong>run &ldquo;ImArg&rdquo;</strong> our program will pause at our breakpoint.
+  if we want to look at that arg in our main function we can <strong>examine memory</strong></p>
+
+<ul>
+<li><strong>print argv[1]</strong> <em>help x will give a list of helpful commands to inspect this further</em></li>
+<li><strong>x/s argv[1]</strong> <em>if we want to look at 1 item and print it as a string this would be the notation</em></li>
+<li><strong>x/2s argv[0]</strong> <em>above the 1 is not needed in front of the s for 1 item, however here if we want 2 items printed from argv[0] the number 2 is needed</em></li>
+</ul>
+
+
+<p><img src="/images/gdbexaminemem.png" alt="gdb examine memory" /></p>
+
+<p>  let&rsquo;s look more closely at the main function *similarly we could disassemble an address or</p>
+
+<ul>
+<li><strong>dis main</strong> <em>will disassemble the main function</em> <strong>=></strong> <em>symbol points to the EIP register</em></li>
+<li><strong>x/i address</strong> <em>will show the assembly instruction for that 1 specific address</em></li>
+<li><strong>x/10i address</strong> <em>this will show instructions for 10 addresses starting with the one given</em></li>
+<li><strong>x/10xw $esp</strong> <em>this will print 10 hex words starting from the top of the stack - the ESP register</em></li>
+</ul>
+
+
+<p><img src="/images/gdbdis.png" alt="gdb dissasemble" /></p>
+
+<ul>
+<li><strong>CTRL-L</strong> <em>in my Ubuntu Linux distro this clears the screen in gdb</em></li>
+</ul>
+
+
+<p>  step &amp; stepi help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
+
+<p><img src="/images/gdstep.png" alt="gdb step" /></p>
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-04-19T15:37:03-05:00" pubdate data-updated="true">2016-04-19 15:37:03 -0500</time></div>
+	
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2016
+
+    m4lefic
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>
