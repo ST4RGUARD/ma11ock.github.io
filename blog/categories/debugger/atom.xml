@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T16:00:32-05:00</updated>
+  <updated>2016-04-20T16:01:10-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -53,7 +53,7 @@
 
 <p><img src="/images/gdbsetradix.png" alt="gdb set radix" /></p>
 
-<p>  at times you may want to change the default numeric input and output for gdb. you can of course print different representations of output to the screen, but if you are going to be following and modifying variables that are used in calculations throughout the program, you may want to use a set format of input that will be easy to modify and follow (ex all hex/dec/octal etc). to change the way your input and output is displayed you need to change the radix</p>
+<p>  at times you may want to <strong>change the default numeric input and output for gdb</strong>. you can of course print different representations of output to the screen, but if you are going to be following and modifying variables that are used in calculations throughout the program, you may want to use a set format of input that will be easy to modify and follow (ex all hex/dec/octal etc). to change the way your input and output is displayed you need to change the radix</p>
 
 <ul>
 <li><strong>show input-radix</strong></li>
