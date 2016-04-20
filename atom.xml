@@ -4,7 +4,7 @@
   <title><![CDATA[a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T09:32:25-05:00</updated>
+  <updated>2016-04-20T09:35:48-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -22,7 +22,7 @@
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation</em></p>
 
-<p>  This section will discuss <strong>breakpoints</strong> in gdb. A breakpoint pauses the execution of a program, and
+<p>  This section will discuss breakpoints in gdb. A breakpoint pauses the execution of a program, and
   gives the user the ability to inspect and modify registers and memory while the program is paused.</p>
 
 <!--more-->
@@ -38,8 +38,7 @@
 </ul>
 
 
-<p>  let&rsquo;s see what happens with our main function
-  we can run any of the following</p>
+<p>  let&rsquo;s see what happens with our main function. we can run any of the following</p>
 
 <ul>
 <li><strong>break main</strong></li>
@@ -99,7 +98,7 @@
 
 <p>  step &amp; stepi help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
 
-<p><img src="http://ma11ock.github.io/images/gdstep.png" alt="gdb step" /></p>
+<p><img src="http://ma11ock.github.io/images/gdbstep.png" alt="gdb step" /></p>
 ]]></content>
   </entry>
   
