@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T15:58:33-05:00</updated>
+  <updated>2016-04-20T16:00:32-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -46,7 +46,8 @@
 <p>  to change a character at that address we can</p>
 
 <ul>
-<li><strong>set {char} address = &lsquo;B&rsquo;</strong> <em>now TEST becomes BEST - **set {int} (address+4) = 1 here we modify null and change it to an integer so BEST\x00 becomes BEST1</em></li>
+<li><strong>set {char} address = &lsquo;B&rsquo;</strong> <em>now TEST becomes BEST</em></li>
+<li><strong>set {int} (address+4) = 1</strong> <em>here we modify null and change it to an integer so BEST\x00 becomes BEST1</em></li>
 </ul>
 
 
