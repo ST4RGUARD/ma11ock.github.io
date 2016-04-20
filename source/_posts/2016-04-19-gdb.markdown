@@ -3,7 +3,7 @@ layout: post
 title: "GDB"
 date: 2016-04-19 15:37:03 -0500
 comments: true
-categories:
+categories: [gdb, debugger]
 ---
 ## gdb breakpoints
 *Notes and material referenced from SecurityTube GDB Primer & GNU GDB documentation*
@@ -12,8 +12,6 @@ categories:
   gives the user the ability to inspect and modify registers and memory while the program is paused.
 
 <!--more-->
-## setting breakpoints
-
   let's inspect a program
 
   - **gdb ./program**
@@ -41,6 +39,8 @@ categories:
 
   let's re-enable our breakpoint. if we re-run our program with our breakpoint set **run "ImArg"** our program will pause at our breakpoint.
   if we want to look at that arg in our main function we can **examine memory**
+
+## examine memory
 
   - **print argv[1]** *help x will give a list of helpful commands to inspect this further*
   - **x/s argv[1]** *if we want to look at 1 item and print it as a string this would be the notation*

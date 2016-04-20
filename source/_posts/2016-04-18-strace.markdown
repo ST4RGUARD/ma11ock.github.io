@@ -25,6 +25,8 @@ for these processes and records them. This provides very useful diagnostic, and 
 
 ![strace specific/multi sys calls](/images/stracemultisyscall.png)
 
+## strace running process
+
   - we can also monitor sys calls of a running process
   - **nc google.com 80**
 
