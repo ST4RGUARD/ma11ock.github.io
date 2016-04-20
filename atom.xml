@@ -4,7 +4,7 @@
   <title><![CDATA[a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T09:35:48-05:00</updated>
+  <updated>2016-04-20T09:39:13-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -92,11 +92,11 @@
 <p><img src="http://ma11ock.github.io/images/gdbdis.png" alt="gdb dissasemble" /></p>
 
 <ul>
-<li><strong>CTRL-L</strong> <em>in my Ubuntu Linux distro this clears the screen in gdb</em></li>
+<li><strong>CTRL-L</strong> <em>in my Ubuntu Linux distro this clears the screen within gdb</em></li>
 </ul>
 
 
-<p>  step &amp; stepi help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
+<p>  <strong>step</strong> &amp; <strong>stepi</strong> help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
 
 <p><img src="http://ma11ock.github.io/images/gdbstep.png" alt="gdb step" /></p>
 ]]></content>
