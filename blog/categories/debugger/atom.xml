@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-20T13:52:47-05:00</updated>
+  <updated>2016-04-20T13:57:17-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -69,6 +69,8 @@
 
 <p>  let&rsquo;s re-enable our breakpoint. if we re-run our program with our breakpoint set <strong>run &ldquo;ImArg&rdquo;</strong> our program will pause at our breakpoint.
   if we want to look at that arg in our main function we can <strong>examine memory</strong></p>
+
+<h2>examine memory</h2>
 
 <ul>
 <li><strong>print argv[1]</strong> <em>help x will give a list of helpful commands to inspect this further</em></li>
@@ -138,6 +140,8 @@ for these processes and records them. This provides very useful diagnostic, and 
 
 
 <p><img src="/images/stracemultisyscall.png" alt="strace specific/multi sys calls" /></p>
+
+<h2>strace running process</h2>
 
 <ul>
 <li>we can also monitor sys calls of a running process</li>
