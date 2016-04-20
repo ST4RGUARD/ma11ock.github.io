@@ -1,0 +1,238 @@
+
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script data-cfasync="false" type="text/javascript" src="//use.typekit.net/axj3cfp.js"></script>
+	<script data-cfasync="false" type="text/javascript">try{Typekit.load();}catch(e){}</script>
+	<meta charset="utf-8">
+	<title>GDB  | a m4lefic security blog</title>
+
+<meta name="author" content="m4lefic"> 
+
+<meta name="description" content="gdb modifying memory Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation This section will discuss modifying &hellip;"> <meta name="keywords" content="">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+	<link href="/atom.xml" rel="alternate" title="a m4lefic security blog" type="application/atom+xml">
+	<link rel="canonical" href="">
+	<link href="/favicon.png" rel="shortcut icon">
+	<link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+	<link href="/stylesheets/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+	<script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js"></script>
+
+<script language="Javascript" type="text/javascript">
+$(document).ready(
+  function() {
+    (function($) {
+      $(".fancybox[data-content-id]").each(function() {
+        this.href = $(this).data('content-id');
+      });
+      $(".fancybox").fancybox({
+        beforeLoad: function() {
+          var el, 
+              id = $(this.element).data('title-id');
+
+          if (id) {
+            el = $('#' + id);
+
+            if (el.length) {
+              this.title = el.html();
+            }
+          }
+          if ($(this).data('content')) {
+            this.content = $(this).data('content');
+          }
+        },
+        helpers: {
+          title: {
+            type: 'inside'
+          }
+        }
+      });
+    })(jQuery);
+  }
+);
+</script>
+
+	
+</head>
+
+
+
+<body>
+	<header id="header" class="inner"><h1><a href="/">a m4lefic security blog</a></h1>
+<h4>collection of security interests</h4>
+<nav id="main-nav"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/portfolio">Portfolio</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</nav>
+<nav id="mobile-nav">
+	<div class="alignleft menu">
+		<a class="button">Menu</a>
+		<div class="container"><ul>
+	<li><a href="/">Blog</a></li>
+	<li><a href="/about">About</a></li>
+	<li><a href="/portfolio">Portfolio</a></li>
+	<li><a href="/archives">Archive</a></li>
+</ul>
+</div>
+	</div>
+	<div class="alignright search">
+		<a class="button"></a>
+		<div class="container">
+			<form action="https://www.google.com/search" method="get">
+				<input type="text" name="q" results="0">
+				<input type="hidden" name="q" value="site:ma11ock.github.io">
+			</form>
+		</div>
+	</div>
+</nav>
+
+
+</header>
+
+	<div id="content" class="inner"><article class="post">
+	<h2 class="title">GDB</h2>
+	<div class="entry-content"><h2>gdb modifying memory</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; GNU GDB documentation</em></p>
+
+<p>  This section will discuss modifying memory in gdb. We will look at altering variables and registers during our code&rsquo;s execution to control the flow our program.</p>
+
+<!--more-->
+
+
+<ul>
+<li><strong>run TEST 10 10</strong> <em>run our program to examine the args</em></li>
+<li><strong>b main</strong> <em>set a breakpoint on our main function to inspect our first argument</em></li>
+</ul>
+
+
+<p>  if we re-run our program, execution is paused when the breakpoint is hit. to see our argument&rsquo;s contents we can
+  - <strong>print argv[1]</strong>
+  - <strong>x/5c argv[1]</strong> <em>or we can examine the memory as 5 character with each byte displayed as hex and the terminating null character displayed as well</em></p>
+
+<p><img src="/images/gdbsetarg.png" alt="gdb examine argument" /></p>
+
+<p>  to change a character at that address we can
+  - <strong>set {char} address = &lsquo;B&rsquo;</strong> <em>now TEST becomes BEST - **set {int} (address+4) = 1 here we modify null and change it to an integer so BEST\x00 becomes BEST1</em></p>
+
+<p><img src="/images/gdbsetradix.png" alt="gdb set radix" /></p>
+
+<p>  at times you may want to change the default numeric input and output for gdb. you can of course print different representations of output to the screen, but if you are going to be following and modifying variables that are used in calculations throughout the program, you may want to use a set format of input that will be easy to modify and follow (ex all hex/dec/octal etc). to change the way your input and output is displayed you need to change the radix</p>
+
+<ul>
+<li><strong>show input-radix</strong></li>
+<li><strong>show output-radix</strong></li>
+<li><strong>set radix 10.</strong> <em>will change both input and output to base 10</em></li>
+</ul>
+
+
+<p>  now if i want to modify a variable that is used in a base 10 calculation I don&rsquo;t have to do any conversions. for example let&rsquo;s modify our sum variable.</p>
+
+<ul>
+<li><strong>b 24</strong> <em>to better demonstrate this we put a breakpoint on the line where our sum has been calculated and is being printed</em></li>
+<li><strong>print sum</strong> <em>after we continue execution of the program and our BP is hit we can print our variable</em></li>
+</ul>
+
+
+<p>  let&rsquo;s modify the contents. because we changed the input-radix we can enter a base 10 number and it will be taken in &amp; then output as a base 10 number</p>
+
+<ul>
+<li><strong>set sum = 1500</strong> <em>if we continue execution the Sum of our arguments is now printed as 1500</em></li>
+</ul>
+
+
+<h2>setting registers</h2>
+
+<p><img src="/images/gdbsetreg.png" alt="gdb set registers" /></p>
+
+<p>  now let&rsquo;s modify our program&rsquo;s registers and see if we can control the flow of our program.</p>
+
+<ul>
+<li><strong>info reg</strong> <em>display our current register values</em></li>
+<li><strong>set $eax = 10</strong> <em>alter the contents of the eax register to 10</em></li>
+</ul>
+
+
+<p>  let&rsquo;s begin by looking for the non executing function we put in our program</p>
+
+<ul>
+<li><strong>info func not</strong> <em>finds a function called notExecute</em></li>
+<li><strong>info address notExecute</strong> <em>find the address of our function at 0x80484d4</em></li>
+<li><strong>set $eip = 0x80484d4</strong> <em>set our eip register to that address</em></li>
+<li><strong>info r $eip</strong> <em>our eip reg is now the notExecute function</em></li>
+<li><strong>c</strong> <em>our function notExecute is run because its address is the instruction run</em></li>
+</ul>
+
+</div>
+
+
+<div class="meta">
+	<div class="date">
+
+
+
+
+
+
+
+
+  
+
+
+
+<time datetime="2016-04-20T14:00:25-05:00" pubdate data-updated="true">2016-04-20 14:00:25 -0500</time></div>
+	
+
+<div class="tags">
+
+	<a class='category' href='/blog/categories/debugger/'>debugger</a>, <a class='category' href='/blog/categories/gdb/'>gdb</a>
+
+</div>
+
+
+	
+</div></article>
+
+	<div class="share">
+	<div class="addthis_toolbox addthis_default_style ">
+	
+	
+	<a class="addthis_button_tweet"></a>
+	
+	
+<!---	<a class="addthis_counter addthis_pill_style"></a> --->
+	</div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+
+</div>
+	<footer id="footer" class="inner">Copyright &copy; 2016
+
+    m4lefic
+
+<br>
+Powered by Octopress.
+</footer>
+	<script src="/javascripts/slash.js"></script>
+<script src="/javascripts/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+	$('.fancybox').fancybox();
+})(jQuery);
+</script> <!-- Delete or comment this line to disable Fancybox -->
+
+
+
+
+
+
+</body>
+</html>
