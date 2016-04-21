@@ -15,17 +15,20 @@ categories: [gdb, debugger]
   - **b main** *set a breakpoint on our main function to inspect our first argument*
 
   if we re-run our program, execution is paused when the breakpoint is hit. to see our argument's contents we can
+
   - **print argv[1]**
-  - **x/5c argv[1]** *or we can examine the memory as 5 character with each byte displayed as hex and the terminating null character displayed as well*
+  - **x/5c argv[1]** *or we can examine the memory as 5 characters with each byte displayed as hex and the terminating null character displayed as well*
 
 ![gdb examine argument](/images/gdbsetarg.png)
 
   to change a character at that address we can
-  - **set {char} address = 'B'** *now TEST becomes BEST - **set {int} (address+4) = 1 here we modify null and change it to an integer so BEST\x00 becomes BEST1*
+
+  - **set {char} address = 'B'** *now TEST becomes BEST*
+  - **set {int} (address+4) = 1** *here we modify null and change it to an integer so BEST\x00 becomes BEST1*
 
 ![gdb set radix](/images/gdbsetradix.png)
 
-  at times you may want to change the default numeric input and output for gdb. you can of course print different representations of output to the screen, but if you are going to be following and modifying variables that are used in calculations throughout the program, you may want to use a set format of input that will be easy to modify and follow (ex all hex/dec/octal etc). to change the way your input and output is displayed you need to change the radix
+  at times you may want to **change the default numeric input and output for gdb**. you can of course print different representations of output to the screen, but if you are going to be following and modifying variables that are used in calculations throughout the program, you may want to use a set format of input that will be easy to modify and follow (ex all hex/dec/octal etc). to change the way your input and output is displayed you need to change the radix
 
   - **show input-radix**
   - **show output-radix**
