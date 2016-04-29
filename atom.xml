@@ -4,7 +4,7 @@
   <title><![CDATA[a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-29T13:47:39-05:00</updated>
+  <updated>2016-04-29T13:50:04-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -22,7 +22,7 @@
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
 
-<p>This section goes over convenience vars in gdb. They allow you to hold and re-use data within gdb.</p>
+<p>This section goes over some convenience var examples in gdb. They allow you to hold and re-use data within gdb.</p>
 
 <!--more-->
 
