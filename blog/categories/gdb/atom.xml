@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gdb | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/gdb/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-29T13:50:04-05:00</updated>
+  <updated>2016-04-29T13:51:56-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GDB]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/29/gdb/"/>
+    <updated>2016-04-29T13:22:34-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/29/gdb</id>
+    <content type="html"><![CDATA[<h2>gdb convenience variables</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
+
+<p>This section goes over some convenience var examples in gdb. They allow you to hold and re-use data within gdb.</p>
+
+<!--more-->
+
+
+<ul>
+<li><strong>set $i = 10</strong> <em>i now holds the value 10</em></li>
+<li><strong>run AAA 10 20</strong> <em>run our program with the arguments AAA 10 20</em></li>
+<li><strong>print argv[1]</strong> <em>initally we see our argument is AAA</em></li>
+<li><strong>set $changeme = &ldquo;BBB&rdquo;</strong> <em>we set a variable changeme to hold BBB</em></li>
+<li><strong>set argv[1] = $changeme</strong> <em>now if we set our argument to our changeme value and continue execution, we can see our program prints the new value</em></li>
+</ul>
+
+
+<p><img src="/images/gdbconvars.png" alt="gdb convenience vars" /></p>
+
+<p>There are many more things we can do with convenience vars. For example, if we look above, we can see that we can set conv vars to do some more complex things</p>
+
+<ul>
+<li><strong>set $mem = (char *)malloc(10)</strong> <em>here we set mem to allocate 10 bytes of memory with the programs malloc function</em></li>
+<li><strong>x/10xb $mem</strong> <em>if we examine those 10 bytes of memory we will see that they are all 0x00 because they were allocated memory but not initialized to any specific values</em></li>
+<li><strong>call strcpy($mem,argv[1])</strong> <em>utilizing the same functionality - we can call the strcpy function included in our program to copy our argument to the mem variable</em></li>
+<li><strong>x/10xb $mem</strong> <em>now if we look at that memory we can see it the first bytes are A A A</em></li>
+<li><strong>set $num1=20</strong></li>
+<li><strong>set $num2=30</strong></li>
+<li><strong>set radix 10.</strong> <em>as mentioned in a prev post we set the radix to base 10 here so our simple calculations can be read in as base 10 and output as base 10 instead of my gdb hex default</em></li>
+<li><strong>call addNumbers(2,3)</strong> <em>additionally we can call our program&rsquo;s addNumbers function with numbers as well as with convenience variables</em></li>
+<li><strong>call addNumbers($num1,$num2)</strong></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDB]]></title>

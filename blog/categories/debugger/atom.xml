@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-04-29T13:50:04-05:00</updated>
+  <updated>2016-04-29T13:51:56-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -12,6 +12,48 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GDB]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/04/29/gdb/"/>
+    <updated>2016-04-29T13:22:34-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/04/29/gdb</id>
+    <content type="html"><![CDATA[<h2>gdb convenience variables</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
+
+<p>This section goes over some convenience var examples in gdb. They allow you to hold and re-use data within gdb.</p>
+
+<!--more-->
+
+
+<ul>
+<li><strong>set $i = 10</strong> <em>i now holds the value 10</em></li>
+<li><strong>run AAA 10 20</strong> <em>run our program with the arguments AAA 10 20</em></li>
+<li><strong>print argv[1]</strong> <em>initally we see our argument is AAA</em></li>
+<li><strong>set $changeme = &ldquo;BBB&rdquo;</strong> <em>we set a variable changeme to hold BBB</em></li>
+<li><strong>set argv[1] = $changeme</strong> <em>now if we set our argument to our changeme value and continue execution, we can see our program prints the new value</em></li>
+</ul>
+
+
+<p><img src="/images/gdbconvars.png" alt="gdb convenience vars" /></p>
+
+<p>There are many more things we can do with convenience vars. For example, if we look above, we can see that we can set conv vars to do some more complex things</p>
+
+<ul>
+<li><strong>set $mem = (char *)malloc(10)</strong> <em>here we set mem to allocate 10 bytes of memory with the programs malloc function</em></li>
+<li><strong>x/10xb $mem</strong> <em>if we examine those 10 bytes of memory we will see that they are all 0x00 because they were allocated memory but not initialized to any specific values</em></li>
+<li><strong>call strcpy($mem,argv[1])</strong> <em>utilizing the same functionality - we can call the strcpy function included in our program to copy our argument to the mem variable</em></li>
+<li><strong>x/10xb $mem</strong> <em>now if we look at that memory we can see it the first bytes are A A A</em></li>
+<li><strong>set $num1=20</strong></li>
+<li><strong>set $num2=30</strong></li>
+<li><strong>set radix 10.</strong> <em>as mentioned in a prev post we set the radix to base 10 here so our simple calculations can be read in as base 10 and output as base 10 instead of my gdb hex default</em></li>
+<li><strong>call addNumbers(2,3)</strong> <em>additionally we can call our program&rsquo;s addNumbers function with numbers as well as with convenience variables</em></li>
+<li><strong>call addNumbers($num1,$num2)</strong></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDB]]></title>
@@ -302,63 +344,6 @@ a quick way to analyze different debug symbols in a binary.</p>
 
 
 <p><img src="/images/nmusage.png" alt="nm usage examples" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GDB]]></title>
-    <link href="http://ma11ock.github.io/blog/2016/04/15/gdbdbg/"/>
-    <updated>2016-04-15T07:54:38-05:00</updated>
-    <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
-    <content type="html"><![CDATA[<h2>gdb debug symbols</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
-
-<p>  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
-  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.</p>
-
-<!--more-->
-
-
-<ul>
-<li>can be part of the binary or a separate file</li>
-<li><strong>gcc -ggdb</strong> to compile with debug symbols for gdb</li>
-</ul>
-
-
-<p><img src="/images/gdbinfovar.png" alt="gdb info variables" /></p>
-
-<ul>
-<li><strong>list</strong> will drop us to the main function if it has the source available</li>
-<li><strong>list 3</strong> will take you to that line of the source</li>
-<li><strong>info variables</strong> if compiled with dbg symbols  will display found variables under defined for the source file</li>
-<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</li>
-<li><strong>info scope functionName</strong> will provide local variables</li>
-</ul>
-
-
-<p><img src="/images/gdbsymbols.png" alt="gdb info functions" /></p>
-
-<ul>
-<li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
-</ul>
-
-
-<h2>stripping debug symbols</h2>
-
-<ul>
-<li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong> used to strip debug symbols from a binary &amp; save symbols to file</li>
-<li><strong>strip &ndash;strip-debug binary</strong> used to strip symbols from binary - use <strong>&ndash;strip-uneeded</strong> to provide only enough to load binary (less information)</li>
-</ul>
-
-
-<h2>adding debug symbols</h2>
-
-<ul>
-<li><strong>symbol-file symbols</strong> used to add debug symbols file to binary without symbols at runtime in <strong>gdb</strong></li>
-<li><strong>objcopy &ndash;add-gnu-debuglink=debug_symbols binary</strong> used to add debug symbols to stripped binary where <strong>debug_symbols</strong> is the symbols file, and <strong>binary</strong> is the stripped binary</li>
-</ul>
-
 ]]></content>
   </entry>
   
