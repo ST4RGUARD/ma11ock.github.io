@@ -108,22 +108,16 @@ the reader has a better understanding of how the code executes line by line. Lat
 <!--more-->
 
 
-<p><span style="color:red;">note</span> - gdb has AT&amp;T &amp; Intel disassembly styles offered</p>
+<p><span style="color:red;">note</span> gdb has AT&amp;T &amp; Intel disassembly styles offered</p>
 
-<ul>
-<li><strong>set disassembly-flavor (att or intel)</strong></li>
-</ul>
+<pre><code>(gdb) set disassembly-flavor intel
+</code></pre>
 
+<p><span style="color:red;">tip</span> if we want to see more code we can</p>
 
-<p><span style="color:red;">tip</span> - if we want to see more code we can</p>
-
-<ul>
-<li><strong>set listsize 40</strong></li>
-<li><strong>l 1</strong></li>
-</ul>
-
-
-<hr />
+<pre><code>(gdb) set listsize 40
+(gdb) l 1
+</code></pre>
 
 <p>without looking too hard at our source code we can see that we have a few functions that look to take input
 from the user and check to see if it matches our defined password, and if it does it prints a code</p>
@@ -132,83 +126,130 @@ from the user and check to see if it matches our defined password, and if it doe
 
 <h2>disassemble main</h2>
 
-<p>if we dis main function we can see a few interesting (noticeable) things
-a jump if greater to <em>(main+57)</em> and above that is a compare instruction
-  - can see a print call
-  - can see an exit call
-  - can see a call to <em>IsPasswordCorrect</em> function
-  - can see a jump if not equal to <em>(main+11)</em> and above that is the compare instruction
-  - can see a call to a UnlockSecret function
-  - and a jmp to <em>(main+111)</em></p>
+<p>if we disassemble the main function we can see a few interesting (noticeable) things</p>
 
-<p>to try and see what&rsquo;s going on let&rsquo;s set a breakpoint on main and run our program
-  - <strong>b main</strong>
-  - <strong>run AAA</strong></p>
+<ul>
+<li>a jump if greater to <em>(main+57)</em></li>
+<li>above that is a compare instruction</li>
+<li>a print call</li>
+<li>an exit call</li>
+<li>a call to <em>IsPasswordCorrect</em> function</li>
+<li>a jump if not equal to <em>(main+11)</em> and above that is the compare instruction</li>
+<li>a call to a UnlockSecret function</li>
+<li>a jmp to <em>(main+111)</em></li>
+</ul>
 
-<p>let&rsquo;s disassemble our program and examine the contents more closely
-  - <strong>dis main</strong></p>
 
-<p>the first 2 instructions we see are
-  - <strong>push ebp</strong>
-  - <strong>mov  ebp,esp</strong></p>
+<p>to try and see what&rsquo;s going on let&rsquo;s set a breakpoint on main and run our program</p>
 
-<p>these instructions represent the function prologue, <strong>ebp</strong> (the base pointer) gets pushed onto the stack and then the <strong>esp</strong> register is copied (saved) from the previous stack frame into <strong>ebp</strong>
-  - <strong>and  esp,0xfffffff0</strong> <em>the compiler adds this instruction to align the stack to a 16-byte boundary</em>
-  - <strong>sub  esp,0x20</strong> <em>the next instruction allocates a buffer of 32 bytes on the stack to make room for our user command-line arguments</em></p>
+<pre><code>(gdb) b main
+(gdb) run AAA
+</code></pre>
+
+<p>let&rsquo;s disassemble our program and examine the contents more closely</p>
+
+<pre><code>(gdb) dis main
+</code></pre>
+
+<p>the first 2 instructions we see are</p>
+
+<pre><code>: push ebp
+: mov  ebp,esp
+</code></pre>
+
+<p>these instructions represent the function prologue, <strong>ebp</strong> (the base pointer) gets pushed onto the stack and then the <strong>esp</strong> register is copied (saved) from the previous stack frame into <strong>ebp</strong></p>
+
+<pre><code>: and  esp,0xfffffff0
+</code></pre>
+
+<p>the compiler adds this instruction to align the stack to a 16-byte boundary</p>
+
+<pre><code>: sub  esp,0x20
+</code></pre>
+
+<p>the next instruction allocates a buffer of 32 bytes on the stack to make room for our user command-line arguments</p>
 
 <p><img src="/images/gdbdismain.png" alt="gdb main prologue" /></p>
 
 <hr />
 
-<p>let&rsquo;s examine our register&rsquo;s contents
-  - <strong>info reg</strong></p>
+<p>let&rsquo;s examine our register&rsquo;s contents</p>
 
-<p>we can there are 2 columns with both in hex, so for a comparison it would be nice to have hex with something else let&rsquo;s use base 10
-  - <strong>set radix 10.</strong> <em>now we have hex and base 10</em></p>
+<pre><code>(gdb) info reg
+</code></pre>
+
+<p>we can see there are 2 columns with both in hex, so for a comparison it would be nice to have hex with something else let&rsquo;s use base 10</p>
+
+<pre><code>(gdb) set radix 10.
+</code></pre>
+
+<p>now we have hex and base 10</p>
 
 <p>our eip register contains the address <em>0x80484d0</em> which is the start of the function <em>(main+9)</em>
-below we see the next instruction is a <strong>cmp  [ebp+0x8],0x1</strong> so let&rsquo;s see what <em>(ebp+8)</em> is currently
-  - <strong>x/1xw ($ebp+8)</strong> <em>is 2</em>
-  - <strong>stepi</strong> on to our next instruction</p>
+below we see the next instruction</p>
 
-<p>gdb shows us that we are at <em>0x80484d8 (main+17)</em>  it also tells us, that equates to the source code line <strong>if (argc &lt; 2)</strong>
-to confirm this we can check our main instruction disassembly
-  - <strong>dis main</strong>
-  - we are now at the <strong>cmp  [ebp+0x8],0x1</strong> which matches with the line of source code shown above</p>
+<pre><code>: cmp  [ebp+0x8],0x1
+</code></pre>
+
+<p>so let&rsquo;s see what <em>(ebp+8)</em> is currently</p>
+
+<p><code>(gdb) x/1xw ($ebp+8)</code> is 2</p>
+
+<p>on to our next instruction <code>(gdb) stepi</code></p>
+
+<p>gdb shows us that we are at <em>0x80484d8 (main+17)</em>  it also tells us, that equates to the source code line</p>
+
+<pre><code>if (argc &lt; 2)
+</code></pre>
+
+<p>to confirm this we can check our main instruction disassembly</p>
+
+<pre><code>(gdb) dis main
+</code></pre>
+
+<p>we are now at the <code>cmp  [ebp+0x8],0x1</code> which matches with the line of source code shown above</p>
 
 <p><img src="/images/gdbdismain2.png" alt="gdb main start" /></p>
 
 <hr />
 
-<p>let&rsquo;s check <em>(ebp+0x8)</em> again
-  - <strong>x/1xw ($ebp+0x8)</strong> <em>still 2, so compare 2&amp;1</em>
-  - <strong>stepi</strong> <em>on to the next instruction</em></p>
+<p>let&rsquo;s check <em>(ebp+0x8)</em> again</p>
 
-<p>now we are at a <strong>jg  0x8048500</strong> or <em>(main+57)</em> instruction
-we are supposed to jump if greater - to <em>(main+57)</em>, so is 2 greater than 1?
-  - <strong>stepi</strong></p>
+<p><code>(gdb) x/1xw ($ebp+0x8)</code> is still 2, so we compare 2&amp;1</p>
 
-<p>moving on we see that we do take the jump and our instruction pointer ,<strong>eip</strong>, now points to <em>(main+57) -> 0x8048500</em></p>
+<p>on to the next instruction <code>(gdb) stepi</code></p>
 
-<p>looking at our assembly code for the main function at <em>(main+57)</em> it is not very apparent as to what this code is doing, however, since we have the source code and this was compiled with debug symbols, gdb tells us the line of source code here is <strong>checkPass = IsPasswordCorrect(argv[1],&ldquo;\x09\x01\x02\x03&rdquo;);</strong></p>
+<p>now we are at a <code>: jg  0x8048500</code> or <em>(main+57)</em> instruction</p>
+
+<p>we are supposed to jump if greater - to <em>(main+57)</em>, so is 2 greater than 1?</p>
+
+<p><code>(gdb) stepi</code> moving on we see that we do take the jump and our instruction pointer ,<strong>eip</strong>, now points to <em>(main+57) -> 0x8048500</em></p>
+
+<p>looking at our assembly code for the main function at <em>(main+57)</em> it is not very apparent as to what this code is doing, however, since we have the source code and this was compiled with debug symbols, gdb tells us the line of source code here is</p>
+
+<pre><code>checkPass = IsPasswordCorrect(argv[1],"\x09\x01\x02\x03");
+</code></pre>
 
 <p><img src="/images/gdbdismain3.png" alt="gdb dis main" /></p>
 
 <hr />
 
-<p>if we look at our registers again
-  - <strong>info reg</strong></p>
+<p>if we look at our registers again</p>
+
+<pre><code>(gdb) info reg
+</code></pre>
 
 <p>we can see <strong>eax</strong> contains <em>0xbfffeeb4</em> which is the address or pointer of <em>(ebp+0xc)</em> that gets moved into <strong>eax</strong></p>
 
-<ul>
-<li><strong>mov  eax,DWORD PTR[ebp+0xc]</strong></li>
-</ul>
+<pre><code>: mov  eax,DWORD PTR[ebp+0xc]
+</code></pre>
 
+<p>let&rsquo;s look at what&rsquo;s happening here - the value at <em>(ebp+0xc)</em> (12 bytes down the stack from <strong>ebp</strong>) gets moved into <strong>eax</strong>, then the instruction</p>
 
-<p>let&rsquo;s look at what&rsquo;s happening here - the value at <em>(ebp+0xc)</em> (12 bytes down the stack from <strong>ebp</strong>) gets moved into <strong>eax</strong>, then the instruction
-  - <strong>add  eax,0x4</strong>
-moves us another 4 bytes</p>
+<pre><code>: add  eax,0x4
+</code></pre>
+
+<p>moves us another 4 bytes</p>
 
 <p><img src="/images/gdbdismain4.png" alt="gdb dis main" /></p>
 
@@ -216,126 +257,243 @@ moves us another 4 bytes</p>
 
 <p><img src="/images/osrstackframe.jpg" alt="stack frame" /></p>
 
-<p>above is an image taken from opensecurityresearch that illustrates this concept - <em>(ebp+12)</em> contains the function parameters (our user arguments), just as opensecurity research notes, the first element <em>(argv[0])</em> is always the program itself so we need to capture the second element in the array, <em>(argv[1])</em> - which is <em>(ebp+16)</em>
-  - <strong>x/1w $eax</strong> <em>if we examine the</em> <strong>eax</strong> <em>register we can see that it contains 0xbffff0b9</em>
-  - <strong>print argv[0]</strong> <em>sure enough argv[0] is 0xbffff0b9 which contains the path to our program</em>
-  - <strong>print argv[1]</strong> <em>similarly argv[1] is 0xbffff0dd which contains our argument AAA</em>
-  - <strong>stepi</strong> <em>if we continue to the next instruction</em>
-  - <strong>x/1w $eax</strong> <em>and re-examine the contents of</em> <strong>eax</strong> <em>we can see we are correct, that</em> <strong>eax</strong> <em>now contains 0xbffff0dd which is indeed our user argument AAA</em>
-  - <strong>stepi</strong></p>
+<p>above is an image taken from opensecurityresearch that illustrates this concept</p>
 
-<ul>
-<li><strong>mov  eax,DWORD PTR[eax]</strong> <em>dereferences the pointer (or grabs the value at that memory address) that</em> <strong>eax</strong> <em>points to and stores that value in the</em> <strong>eax</strong> <em>register itself - now we have our user given argument saved</em>
+<p><em>(ebp+12)</em> contains the function parameters (our user arguments), just as opensecurity research notes, the first element <em>(argv[0])</em> is always the program itself so we need to capture the second element in the array, <em>(argv[1])</em> - which is <em>(ebp+16)</em></p>
 
-<ul>
-<li><strong>stepi</strong></li>
-</ul>
-</li>
-<li><strong>mov  DWORD PTR[esp+0x4],0x8048638</strong> <em>next we move the contents of the memory address 0x8048638 into (esp+0x4)</em></li>
-</ul>
+<pre><code>(gdb) x/1w $eax
+</code></pre>
 
+<p>if we examine the <strong>eax</strong> register we can see that it contains <em>0xbffff0b9</em></p>
+
+<pre><code>(gdb) print argv[0]
+</code></pre>
+
+<p>sure enough argv[0] is <em>0xbffff0b9</em> which contains the path to our program</p>
+
+<pre><code>(gdb) print argv[1]
+</code></pre>
+
+<p>similarly argv[1] is <em>0xbffff0dd</em> which contains our argument AAA</p>
+
+<p><code>(gdb) stepi</code> to the next instruction</p>
+
+<pre><code>(gdb) x/1w $eax
+</code></pre>
+
+<p>and re-examine the contents of <strong>eax</strong> we can see we are correct, that <strong>eax</strong> now contains <em>0xbffff0dd</em> which is indeed our user argument AAA</p>
+
+<pre><code>(gdb) stepi
+
+: mov  eax,DWORD PTR[eax]
+</code></pre>
+
+<p>dereferences the pointer (or grabs the value at that memory address) that <strong>eax</strong> points to and stores that value in the <strong>eax</strong> register itself
+  - now we have our user given argument saved</p>
+
+<pre><code>(gdb) stepi
+
+: mov  DWORD PTR[esp+0x4],0x8048638
+</code></pre>
+
+<p>next we move the contents of the memory address <em>0x8048638</em> into <em>(esp+0x4)</em></p>
 
 <p><img src="/images/gdbdismain5.png" alt="gdb dis main" /></p>
 
 <hr />
 
-<h2>but what is <em>0x8048638</em>? if we look at our main function the last address is <em>0x0804853c</em>, so it can be confusing to think about what the address might contain. if we think about it, and look at where we are in the main function, gdb tells us we are at <strong>checkPass = IsPasswordCorrect(argv[1], &ldquo;\x09\x01\x02\x03&rdquo;)</strong> - so perhaps it is related to this line, &amp; it is in fact an argument that is stored in memory</h2>
+<p>but what is <em>0x8048638</em>? if we look at our main function the last address is <em>0x0804853c</em>, so it can be confusing to think about what the address might contain.</p>
 
-<p>to try get a closer look at what&rsquo;s happening we can examine the stack - if we look at where the contents of that memory address are stored <em>(esp+4)</em>
-  - <strong>x/w $esp+4</strong> <em>we do see our address 0x8048638</em>
-&amp; if we examine what&rsquo;s inside
-  - <strong>x/xw 0x8048638</strong> <em>we find 0x03020109 - which is in fact the value we are comparing against (the user supplied command line argument argv[1])</em></p>
+<p>if we think about it, and look at where we are in the main function, gdb tells us we are at</p>
 
-<p><strong>mov  DWORD PTR[esp],eax</strong> <em>moves the value from</em> <strong>eax</strong> <em>into the location pointed to by the</em> <strong>esp</strong> <em>register</em></p>
+<pre><code>checkPass = IsPasswordCorrect(argv[1], "\x09\x01\x02\x03")
+</code></pre>
 
-<p>the previous several instructions are setting up the function variables for our next instruction which is the call to the function <em>0x8048498 IsPasswordCorrect</em> - the next address to execute gets placed onto the stack &amp; after our <em>IsPasswordCorrect</em> function finishes it will return to the next address for execution</p>
+<p>so perhaps it is related to this line?, it is in fact an argument that is stored in memory</p>
 
-<p>if we <strong>stepi</strong> we see our <em>IsPasswordCorrect</em> function call with the arguments assigned to their respective variables in gdb cool!
-  + we see password=AAA &amp; userInput=0x8048638 or \t\001\002\003 or 0x03020109 , which is our static value</p>
+<p>to try get a closer look at what&rsquo;s happening we can examine the stack</p>
+
+<p>if we look at where the contents of that memory address are stored <em>(esp+4)</em></p>
+
+<pre><code>(gdb) x/w $esp+4
+</code></pre>
+
+<p>we do see our address <em>0x8048638</em></p>
+
+<p>&amp; if we examine what&rsquo;s inside</p>
+
+<pre><code>(gdb) x/xw 0x8048638
+</code></pre>
+
+<p>we find <em>0x03020109</em> which is in fact the value we are comparing against (the user supplied command line argument argv[1])</p>
+
+<pre><code>: mov  DWORD PTR[esp],eax
+</code></pre>
+
+<p>moves the value from <strong>eax</strong> into the location pointed to by the <strong>esp</strong> register</p>
+
+<p>the previous several instructions are setting up the function variables for our next instruction which is the call to the function <em>0x8048498 IsPasswordCorrect</em></p>
+
+<p>the next address to execute gets placed onto the stack &amp; after our <em>IsPasswordCorrect</em> function finishes it will return to the next address for execution</p>
+
+<p>if we <code>(gdb) stepi</code> we see our <em>IsPasswordCorrect</em> function call with the arguments assigned to their respective variables in gdb cool!</p>
+
+<ul>
+<li>we see password=AAA &amp; userInput=0x8048638 (or \t\001\002\003 or 0x03020109) , which is our static value</li>
+</ul>
+
 
 <p><img src="/images/gdbdismain6.png" alt="gdb setup function call" /></p>
 
 <h2>disassemble IsPasswordCorrect</h2>
 
-<p>if we were to continue with a <strong>stepi</strong> command the call to our <em>IsPasswordCorrect</em> function would place us at the start of the function prologue, alternatively, we can set a breakpoint on <em>IsPasswordCorrect</em> re-run the program and continue until it hits that function - this will bypass the prologue
-  - <strong>b IsPasswordCorrect</strong> <em>set a breakpoint on the function</em>
-  - <strong>run AAA</strong> <em>re-run &amp; continue through our main breakpoint</em>
-  - <strong>dis IsPasswordCorrect</strong> <em>examine the function</em></p>
+<p>if we were to continue with a <code>(gdb) stepi</code> command the call to our <em>IsPasswordCorrect</em> function would place us at the start of the function prologue, alternatively, we can</p>
 
-<p>as with the main function before, the first instructions are the function prologue (which we bypassed), and we also get a buffer of 40 bytes allocated on the stack
-we can see our <strong>eip</strong> points to our first instruction
-- <strong>mov  eax,DWORD PTR[ebp+0xc]</strong>
-- <strong>mov DWORD PTR[esp+0x4],eax</strong></p>
+<ul>
+<li><p>set a breakpoint on <em>IsPasswordCorrect</em></p>
 
-<p>as we saw previously in our <em>main</em> function the value at <em>(ebp+0xc)</em> (12 bytes down the stack from <strong>ebp</strong>) gets moved into <strong>eax</strong> - remember, this is how we put our argument into <strong>eax</strong></p>
+<p><code>(gdb) b IsPasswordCorrect</code></p></li>
+<li><p>re-run the program and continue until it hits that function</p>
 
-<p>ok, so let&rsquo;s take a look at the <strong>eax</strong> register
-  - <strong>print $eax</strong> <em>it contains the address 0xbffff0dd</em>
-ok &amp; what does that address contain
-  - <strong>print *0xbffff0dd</strong> <em>0x414141 - great it&rsquo;s our argument</em></p>
+<p><code>(gdb) run AAA
+(gdb) c</code></p></li>
+<li><p>&amp; this will bypass the prologue</p>
 
-<p>if we continue <strong>stepi</strong>, gdb tells us <strong>result = strcmp(password,userInput)</strong>
-  - <strong>mov  DWORD PTR[esp+0x4],eax</strong> <em>we mov</em> <strong>eax</strong> <em>onto the stack at (esp+4)</em>
-&amp; if we do a
-  - <strong>x/xw $esp+4</strong> <em>we can see the address 0x08048638</em>
-  - <strong>x/xw 0x08048638</strong> <em>is our userInput 09\01\02\03</em></p>
+<p><code>(gdb) dis IsPasswordCorrect</code></p></li>
+</ul>
+
+
+<p>as with the main function before, the first instructions are the function prologue (which we bypassed), and we also get a buffer of 40 bytes allocated on the stack</p>
+
+<p>we can see our <strong>eip</strong> points to our first instruction</p>
+
+<pre><code>: mov  eax,DWORD PTR[ebp+0xc]
+: mov  DWORD PTR[esp+0x4],eax
+</code></pre>
+
+<p>as we saw previously in our <em>main</em> function the value at <em>(ebp+0xc)</em> (12 bytes down the stack from <strong>ebp</strong>) gets moved into <strong>eax</strong></p>
+
+<p>remember, this is how we put our argument into <strong>eax</strong></p>
+
+<p>ok, so let&rsquo;s take a look at the <strong>eax</strong> register</p>
+
+<p><code>(gdb) print $eax</code> it contains the address <em>0xbffff0dd</em></p>
+
+<p>ok &amp; what does that address contain</p>
+
+<p><code>(gdb) print *0xbffff0dd</code> 0x414141 - great it&rsquo;s our argument</p>
+
+<p>if we <code>(gdb) stepi</code>, gdb tells us</p>
+
+<pre><code>result = strcmp(password,userInput)
+: mov  DWORD PTR[esp+0x4],eax
+</code></pre>
+
+<p>we mov <strong>eax</strong> onto the stack at <em>(esp+4)</em> &amp; if we do a</p>
+
+<p><code>(gdb) x/xw $esp+4</code> we can see the address <em>0x08048638</em></p>
+
+<p><code>(gdb) x/xw 0x08048638</code> is our userInput 09\01\02\03</p>
 
 <p><img src="/images/gdbdisIPC1.png" alt="gdb dis IsPasswordCorrect" /></p>
 
 <hr />
 
-<p>if we continue <strong>stepi</strong> we see that we grab the address to our base pointer <em>(ebp+8)</em> and store that in <strong>eax</strong> - the contents of this is our argument AAA</p>
+<p>if we continue <code>(gdb) stepi</code> we see that we grab the address to our base pointer <em>(ebp+8)</em> and store that in <strong>eax</strong></p>
 
-<p>continuing <strong>stepi</strong> we see that we now move <strong>eax</strong> into a stack pointer</p>
+<p>the contents of this is our argument AAA</p>
 
-<p>the next instruction is a function call to <strong>strcmp</strong>, and to get a better idea about what&rsquo;s going on we can
-  - <strong>x/2xw $esp</strong> <em>examine 2 words on the stack</em></p>
+<p>continuing <code>(gdb) stepi</code> we see that we now move <strong>eax</strong> into a stack pointer</p>
+
+<p>the next instruction is a function call to <strong>strcmp</strong>, and to get a better idea about what&rsquo;s going on we can</p>
+
+<p><code>(gdb) x/2xw $esp</code> examine 2 words on the stack</p>
 
 <p>we see <em>0xbffff0dd</em> and <em>0x08048638</em> currently exist which are the 2 values we are comparing (password &amp; userInput)</p>
 
-<p>here we use a <strong>nexti</strong> to proceed to the end of the <strong>strcmp</strong> function, we see that the next value on the stack is the next address <em>0x080484b0</em> - this address is the instruction
-  - <strong>mov  DWORD PTR[ebp-0xc],eax</strong></p>
+<p>here we use a <code>(gdb) nexti</code> to proceed to the end of the <strong>strcmp</strong> function</p>
 
-<p>it looks like we want to put the contents of <strong>eax</strong> (AAA) into an address pointer to <em>(ebp-0xc)</em>, if we <strong>stepi</strong> we see
-  - <strong>cmp  DWORD PTR[ebp-0xc],0x0</strong> <em>gdb also tells us that we are on line 31 of our source code which is</em> <strong>if(result == 0)</strong></p>
+<p>we see that the next value on the stack is the next address <em>0x080484b0</em> - this address is the instruction</p>
+
+<pre><code>: mov  DWORD PTR[ebp-0xc],eax
+</code></pre>
+
+<p>it looks like we want to put the contents of <strong>eax</strong> (AAA) into an address pointer to <em>(ebp-0xc)</em></p>
+
+<p>if we <code>(gdb)  stepi</code> we see</p>
+
+<pre><code>: cmp  DWORD PTR[ebp-0xc],0x0
+</code></pre>
+
+<p>gdb also tells us that we are on line 31 of our source code which is <code>if(result == 0)</code></p>
 
 <p>so this is our <strong>if</strong> statement, where we compare our result (<strong>eax</strong>) with 0</p>
 
 <p><img src="/images/gdbdisIPC2.png" alt="gdb dis IsPasswordCorrect" /></p>
 
-<p>remember for the <strong>strcmp</strong> value to be 0, str1 will be equal to str2, if we <strong>stepi</strong> we can see we are now at a <strong>jne</strong>(jump if not equal) to the <em>(IsPasswordCorrect+40)</em></p>
+<p>remember for the <strong>strcmp</strong> value to be 0, str1 will be equal to str2</p>
 
-<p>because our (<strong>cmp 0</strong> with <strong>eax</strong>) or (<strong>if result == 0</strong>) did not evaluate to 0, we do take this jump, <strong>stepi</strong> takes us to <em>0x080484c0</em>, which is <em>(IsPasswordCorrect+40)</em> &amp; this begins our function wind down, or function epilogue, which I will explain at the end of the main function</p>
+<p>if we <code>(gdb) stepi</code> we can see we are now at jne (jump if not equal) to the <em>(IsPasswordCorrect+40)</em></p>
+
+<p>because our (<strong>cmp 0</strong> with <strong>eax</strong>) or (<strong>if result == 0</strong>) did not evaluate to 0, we do take this jump</p>
+
+<p><code>(gdb) stepi</code> takes us to <em>0x080484c0</em>, which is <em>(IsPasswordCorrect+40)</em> &amp; this begins our function wind down, or function epilogue, which I will explain at the end of the main function</p>
 
 <p><img src="/images/gdbdisIPC3.png" alt="gdb dis IsPasswordCorrect" /></p>
 
 <h2>back to main</h2>
 
-<p>when we return from our <em>IsPasswordCorrect</em> function, we are placed at <em>0x08048518</em>
-  - <strong>mov  DWORD PTR[esp+0x1c],eax</strong></p>
+<p>when we return from our <em>IsPasswordCorrect</em> function, we are placed at <em>0x08048518</em></p>
 
-<p>we can see that we are putting <strong>eax</strong> onto the stack and then executing a <strong>cmp</strong> against it on the following instruction, <strong>stepi</strong>
-  - <strong>cmp  DWORD PTR[esp,0x1c],0x1</strong> <em>this instruction is comparing our</em> <strong>eax</strong> <em>value (previously returned IsPasswordCorrect value) with 1</em>
-  - <strong>stepi</strong>
-  - <strong>jne  0x804852a(main+99)</strong> <em>we will jump if that value is not equal</em></p>
+<pre><code>: mov  DWORD PTR[esp+0x1c],eax
+</code></pre>
 
-<p>because our <em>IsPasswordCorrect</em> function returned 0 (the password &amp; userInput were not equal), our checkPass fails &amp; does not equal 1, so we take the jump to <em>(main+99)</em>
-  - <strong>mov  DWORD PTR[esp],0x8048640</strong> <em>we place the contents of 0x8048640 onto the stack</em></p>
+<p>we can see that we are putting <strong>eax</strong> onto the stack and then executing a <strong>cmp</strong> against it on the following instruction, <code>(gdb) stepi</code></p>
 
-<p>we can examine that address to see the contents are
-  - <strong>x/s 0x8048640</strong> <em>&ldquo;\n\nIncorrect Password! Please try again! \n\n&rdquo;</em>
-this makes sense because our values were not equal
-  - <strong>stepi</strong>
-  - <strong>call  0x8048398</strong> <em>our next instruction is a call to puts which is the putsrtring function that displays the message on the screen</em></p>
+<pre><code>: cmp  DWORD PTR[esp,0x1c],0x1
+</code></pre>
+
+<p>this instruction is comparing our <strong>eax</strong> value (previously returned IsPasswordCorrect value) with 1, <code>(gdb) stepi</code></p>
+
+<pre><code>: jne  0x804852a(main+99)
+</code></pre>
+
+<p>we will jump if that value is not equal</p>
+
+<p>because our <em>IsPasswordCorrect</em> function returned 0 (the password &amp; userInput were not equal), our checkPass fails &amp; does not equal 1</p>
+
+<p>so we take the jump to <em>(main+99)</em></p>
+
+<p><code>: mov  DWORD PTR[esp],0x8048640</code> we place the contents of <em>0x8048640</em> onto the stack</p>
+
+<p>we can examine that address to see what the contents are</p>
+
+<p><code>(gdb) x/s 0x8048640</code> &ldquo;\n\nIncorrect Password! Please try again! \n\n&rdquo;</p>
+
+<p>this makes sense because our values were not equal</p>
+
+<pre><code>(gdb) stepi
+: call  0x8048398
+</code></pre>
+
+<p>our next instruction is a call to puts which is the putsrtring function that displays the message on the screen</p>
 
 <p><img src="/images/gdbfinishmain.png" alt="gdb dis main" /></p>
 
-<p>finally - we wind down the main function
-  - <strong>mov  eax,0x0</strong> <em>zero out the</em> <strong>eax</strong> <em>register</em>
-  - <strong>leave</strong>  <em>call leave, which is the call for the function epilogue and can be broken down to the instructions</em>
-    - <strong>mov esp, ebp</strong> <em>close the stack frame by moving the base pointer into</em> <strong>esp</strong> <em>(putting the stack pointer back to where it was originally when the function was called)</em>
-    - <strong>pop ebp</strong> <em>then pop it off the stack to restore the calling function&rsquo;s stack frame</em>
-    - <strong>ret</strong> <em>the ret instruction pops the return address of the previous stack frame off the stack and returns us to the calling function</em></p>
+<p>finally - we wind down the main function</p>
+
+<ul>
+<li><p><code>: mov  eax,0x0</code> zero out the <strong>eax</strong> register</p></li>
+<li><p><code>: leave</code> call leave, which is the call for the function epilogue and can be broken down to the instructions</p>
+
+<ul>
+<li><p><code>: mov esp, ebp</code> close the stack frame by moving the base pointer into* <strong>esp</strong> (putting the stack pointer back to where it was originally when the function was called)</p></li>
+<li><p><code>: pop ebp</code> then pop it off the stack to restore the calling function&rsquo;s stack frame</p></li>
+</ul>
+</li>
+<li><p><code>: ret</code> the ret instruction pops the return address of the previous stack frame off the stack and returns us to the calling function</p></li>
+</ul>
+
 </div>
 
 
