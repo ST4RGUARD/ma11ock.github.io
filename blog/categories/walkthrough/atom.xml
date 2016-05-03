@@ -4,7 +4,7 @@
   <title><![CDATA[Category: walkthrough | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/walkthrough/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-03T13:49:32-05:00</updated>
+  <updated>2016-05-03T13:51:03-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -28,12 +28,26 @@ the reader has a better understanding of how the code executes line by line. Lat
 <!--more-->
 
 
-<p>let us note gdb has AT&amp;T &amp; Intel disassembly styles offered
-  - <strong>set disassembly-flavor (att or intel)</strong></p>
+<p><span style="color:red;">note</span> - gdb has AT&amp;T &amp; Intel disassembly styles offered</p>
 
-<p><span style="color:red;">tip</span> - if we want to see more code we can <strong>set listsize 40</strong></p>
+<ul>
+<li><strong>set disassembly-flavor (att or intel)</strong></li>
+</ul>
 
-<h2><strong>l 1</strong></h2>
+
+<p><span style="color:red;">tip</span> - if we want to see more code we can</p>
+
+<ul>
+<li><strong>set listsize 40</strong>
+
+<ul>
+<li><strong>l 1</strong></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
 
 <p>without looking too hard at our source code we can see that we have a few functions that look to take input</p>
 
