@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-03T13:51:03-05:00</updated>
+  <updated>2016-05-03T13:52:49-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -38,20 +38,17 @@ the reader has a better understanding of how the code executes line by line. Lat
 <p><span style="color:red;">tip</span> - if we want to see more code we can</p>
 
 <ul>
-<li><strong>set listsize 40</strong>
-
-<ul>
+<li><strong>set listsize 40</strong></li>
 <li><strong>l 1</strong></li>
-</ul>
-</li>
 </ul>
 
 
 <hr />
 
-<p>without looking too hard at our source code we can see that we have a few functions that look to take input</p>
+<p>without looking too hard at our source code we can see that we have a few functions that look to take input
+from the user and check to see if it matches our defined password, and if it does it prints a code</p>
 
-<h2>from the user and check to see if it matches our defined password, and if it does it prints a code</h2>
+<hr />
 
 <h2>disassemble main</h2>
 
