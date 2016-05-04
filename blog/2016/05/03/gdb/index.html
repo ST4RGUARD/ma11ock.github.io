@@ -126,7 +126,7 @@ from the user and check to see if it matches our defined password, and if it doe
 
 <h2>disassemble main</h2>
 
-<p>if we disassemble the main function we can see a few interesting (noticeable) things</p>
+<p>if we disassemble the <em>main</em> function we can see a few interesting (noticeable) things</p>
 
 <ul>
 <li>a jump if greater to <em>(main+57)</em></li>
@@ -140,7 +140,7 @@ from the user and check to see if it matches our defined password, and if it doe
 </ul>
 
 
-<p>to try and see what&rsquo;s going on let&rsquo;s set a breakpoint on main and run our program</p>
+<p>to try and see what&rsquo;s going on let&rsquo;s set a breakpoint on <em>main</em> and run our program</p>
 
 <pre><code>(gdb) b main
 (gdb) run AAA
@@ -202,7 +202,7 @@ below we see the next instruction</p>
 <pre><code>if (argc &lt; 2)
 </code></pre>
 
-<p>to confirm this we can check our main instruction disassembly</p>
+<p>to confirm this we can check our <em>main</em> instruction disassembly</p>
 
 <pre><code>(gdb) dis main
 </code></pre>
@@ -225,7 +225,7 @@ below we see the next instruction</p>
 
 <p><code>(gdb) stepi</code> moving on we see that we do take the jump and our instruction pointer ,<strong>eip</strong>, now points to <em>(main+57) -> 0x8048500</em></p>
 
-<p>looking at our assembly code for the main function at <em>(main+57)</em> it is not very apparent as to what this code is doing, however, since we have the source code and this was compiled with debug symbols, gdb tells us the line of source code here is</p>
+<p>looking at our assembly code for the <em>main</em> function at <em>(main+57)</em> it is not very apparent as to what this code is doing, however, since we have the source code and this was compiled with debug symbols, gdb tells us the line of source code here is</p>
 
 <pre><code>checkPass = IsPasswordCorrect(argv[1],"\x09\x01\x02\x03");
 </code></pre>
@@ -302,9 +302,9 @@ below we see the next instruction</p>
 
 <hr />
 
-<p>but what is <em>0x8048638</em>? if we look at our main function the last address is <em>0x0804853c</em>, so it can be confusing to think about what the address might contain.</p>
+<p>but what is <em>0x8048638</em>? if we look at our <em>main</em> function the last address is <em>0x0804853c</em>, so it can be confusing to think about what the address might contain.</p>
 
-<p>if we think about it, and look at where we are in the main function, gdb tells us we are at</p>
+<p>if we think about it, and look at where we are in the <em>main</em> function, gdb tells us we are at</p>
 
 <pre><code>checkPass = IsPasswordCorrect(argv[1], "\x09\x01\x02\x03")
 </code></pre>
@@ -363,7 +363,7 @@ below we see the next instruction</p>
 </ul>
 
 
-<p>as with the main function before, the first instructions are the function prologue (which we bypassed), and we also get a buffer of 40 bytes allocated on the stack</p>
+<p>as with the <em>main</em> function before, the first instructions are the function prologue (which we bypassed), and we also get a buffer of 40 bytes allocated on the stack</p>
 
 <p>we can see our <strong>eip</strong> points to our first instruction</p>
 
@@ -437,7 +437,7 @@ below we see the next instruction</p>
 
 <p>because our (<strong>cmp 0</strong> with <strong>eax</strong>) or (<strong>if result == 0</strong>) did not evaluate to 0, we do take this jump</p>
 
-<p><code>(gdb) stepi</code> takes us to <em>0x080484c0</em>, which is <em>(IsPasswordCorrect+40)</em> &amp; this begins our function wind down, or function epilogue, which I will explain at the end of the main function</p>
+<p><code>(gdb) stepi</code> takes us to <em>0x080484c0</em>, which is <em>(IsPasswordCorrect+40)</em> &amp; this begins our function wind down, or function epilogue, which I will explain at the end of the <em>main</em> function</p>
 
 <p><img src="/images/gdbdisIPC3.png" alt="gdb dis IsPasswordCorrect" /></p>
 
@@ -480,7 +480,7 @@ below we see the next instruction</p>
 
 <p><img src="/images/gdbfinishmain.png" alt="gdb dis main" /></p>
 
-<p>finally - we wind down the main function</p>
+<p>finally - we wind down the <em>main</em> function</p>
 
 <ul>
 <li><p><code>: mov  eax,0x0</code> zero out the <strong>eax</strong> register</p></li>
