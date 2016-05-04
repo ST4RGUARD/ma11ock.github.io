@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gdb | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/gdb/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-03T15:09:54-05:00</updated>
+  <updated>2016-05-04T08:43:46-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -127,7 +127,7 @@ below we see the next instruction</p>
 <pre><code>(gdb) dis main
 </code></pre>
 
-<p>we are now at the <code>cmp  [ebp+0x8],0x1</code> which matches with the line of source code shown above</p>
+<p>we are now at the <code>: cmp  [ebp+0x8],0x1</code> which matches with the line of source code shown above</p>
 
 <p><img src="/images/gdbdismain2.png" alt="gdb main start" /></p>
 
