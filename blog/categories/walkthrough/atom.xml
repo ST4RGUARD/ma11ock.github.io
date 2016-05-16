@@ -4,7 +4,7 @@
   <title><![CDATA[Category: walkthrough | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/walkthrough/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-04T12:41:34-05:00</updated>
+  <updated>2016-05-16T10:06:20-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -23,7 +23,7 @@
 <p><em>Notes and material referenced from SecurityTube GDB Primer, opensecurityresearch, GNU docs</em></p>
 
 <p>The goal of this blog post is to examine a smaller functioning program in gdb. We will walkthrough each instruction and examine how it relates to the program, so that
-the reader has a better understanding of how the code executes line by line. Later we will take this knowledge and build from it, with a blog dedicated to interacting and modifying the program to allow it to do what we want.</p>
+the reader has a better understanding of how the code executes line by line.</p>
 
 <!--more-->
 
