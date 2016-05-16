@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-16T11:00:40-05:00</updated>
+  <updated>2016-05-16T11:05:17-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -22,8 +22,8 @@
 
 <p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
 
-<p>This section goes over setting conditional breakpoints. When regular breakpoints aren&rsquo;t giving us the information we need when we need it we might want a conditional breakpoint.
-For example, if you only want to examine some memory at a certain place in a loop you would set a conditional breakpoint.</p>
+<p>This section goes over setting conditional breakpoints. When regular breakpoints aren&rsquo;t giving us the information we need when we need, it we might want a conditional breakpoint.
+For example, if you only want to examine some memory at a certain place in a loop, you would set a conditional breakpoint.</p>
 
 <!--more-->
 
@@ -48,7 +48,9 @@ For example, if you only want to examine some memory at a certain place in a loo
 
 <p>if we <code>(gdb) c</code> we see that it counts down without breaking as it did previously until our counter is indeed 5 <code>(gdb) print counter</code></p>
 
-<h2><img src="/images/gdbcondbp.png" alt="gdb conditional breakpoint" /></h2>
+<p><img src="/images/gdbcondbp.png" alt="gdb conditional breakpoint" /></p>
+
+<hr />
 
 <p>if we don’t have the source but want to apply a conditional bp we can still examine the assembly instructions to help us understand what&rsquo;s going on</p>
 
@@ -73,7 +75,7 @@ For example, if you only want to examine some memory at a certain place in a loo
 
 <hr />
 
-<p>so let&rsquo;s set eax to 1 - this is easy enough, by keeping what we already have - we just re-run the program <code>(gdb) run testing</code></p>
+<p>so let&rsquo;s set eax to 0 - this is easy enough, by keeping what we already have - we just re-run the program <code>(gdb) run testing</code></p>
 
 <pre><code>(gdb) set $eax = 0
 (gdb) c
@@ -83,14 +85,16 @@ For example, if you only want to examine some memory at a certain place in a loo
 
 <p>however, taking what we previously learned about conditional breakpoints into consideration, we could have saved ourselves a lot of trouble by doing the following</p>
 
-<p>after setting our breakpoint on the test eax instruction, we could have set a conditional breakpoint like below</p>
+<p>after setting our breakpoint on the test eax instruction, we could have set a conditional breakpoint</p>
 
 <pre><code>(gdb) condition 1 $eax !=0
 </code></pre>
 
 <p>so now it will only break when the eax register is not equal to 0, or when it fails the password check - this way we can change it only when necessary</p>
 
-<h2><img src="/images/gdbcondbp3.png" alt="gdb conditional breakpoint no source" /></h2>
+<p><img src="/images/gdbcondbp3.png" alt="gdb conditional breakpoint no source" /></p>
+
+<hr />
 ]]></content>
   </entry>
   
