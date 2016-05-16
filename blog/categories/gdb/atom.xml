@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gdb | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/gdb/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-16T10:06:20-05:00</updated>
+  <updated>2016-05-16T10:59:19-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GDB]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/05/16/gdb/"/>
+    <updated>2016-05-16T10:10:39-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/05/16/gdb</id>
+    <content type="html"><![CDATA[<h2>gdb conditional breakpoints</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
+
+<p>This section goes over setting conditional breakpoints. When regular breakpoints aren&rsquo;t giving us the information we need when we need it we might want a conditional breakpoint.
+For example, if you only want to examine some memory at a certain place in a loop you would set a conditional breakpoint.</p>
+
+<!--more-->
+
+
+<h2>conditional breakpoints break only if a condition is met</h2>
+
+<p>if we run our program with debugging symbols, we see that we have a while loop that counts down</p>
+
+<p>let&rsquo;s set a breakpoint on line 10 <code>(gdb) b 10</code></p>
+
+<p>if we run the program with any argument <code>(gdb) run testing</code> we see that our breakpoint is hit each time counter decrements</p>
+
+<p>ok, this is a relatively small loop, but what if we want have a larger loop and are only interested in stopping at a specific point - what if we only want to break when counter = 5?</p>
+
+<pre><code>(gdb) info b
+(gdb) condition 1 counter == 5
+</code></pre>
+
+<p>we examine our breakpoints, to see which Num is being assigned to the breakpoint we&rsquo;re interested in - here we only have 1 so that&rsquo;s easy enough</p>
+
+<p>next we set our conditional breakpoint using the Num assigned to our breakpoint &amp; then give the condition - counter == 5, we want to only break once counter is equal to 5</p>
+
+<p>if we <code>(gdb) c</code> we see that it counts down without breaking as it did previously until our counter is indeed 5 <code>(gdb) print counter</code></p>
+
+<h2><img src="/images/gdbcondbp.png" alt="gdb conditional breakpoint" /></h2>
+
+<p>if we don’t have the source but want to apply a conditional bp we can still examine the assembly instructions to help us understand what&rsquo;s going on</p>
+
+<p><code>(gdb) info functions</code> sure enough nothing too useful here, so let&rsquo;s <code>(gdb) dis main</code></p>
+
+<p>in main we see the <code>: test eax,eax</code> instruction - which tells us that there is a string comparison in our code</p>
+
+<p>ok, it makes sense to set bp on test eax to see what&rsquo;s happening here (where we see if eax is 0 or not)</p>
+
+<p><code>(gdb) break *0x08048478</code></p>
+
+<p>if we run our program with a random argument <code>(gdb) run testing</code> our breakpoint is hit, now let&rsquo;s step to the next instruction <code>(gdb) stepi</code> and examine what the eax register is</p>
+
+<pre><code>(gdb) print $eax
+</code></pre>
+
+<p>eax is 1, ok, so if we <code>(gdb) stepi</code> again, we see that we are now at <em>(main+118)</em>, a mov instruction - we got here from the previous jne instruction that followed our test eax instruction</p>
+
+<p>so if we continue execution of our program <code>(gdb) c</code> we see the following printed - Sorry! Please try again!, now we know that if eax is 1 we will not hit our desired correct password function</p>
+
+<p><img src="/images/gdbcondbp2.png" alt="gdb conditional breakpoint no source" /></p>
+
+<hr />
+
+<p>so let&rsquo;s set eax to 1 - this is easy enough, by keeping what we already have - we just re-run the program <code>(gdb) run testing</code></p>
+
+<pre><code>(gdb) set $eax = 0
+(gdb) c
+</code></pre>
+
+<p>and now change the eax register to 0 and continue - sure enough we hit the correct password function</p>
+
+<p>however, taking what we previously learned about conditional breakpoints into consideration, we could have saved ourselves a lot of trouble by doing the following</p>
+
+<p>after setting our breakpoint on the test eax instruction, we could have set a conditional breakpoint like below</p>
+
+<pre><code>(gdb) condition 1 $eax !=0
+</code></pre>
+
+<p>so now it will only break when the eax register is not equal to 0, or when it fails the password check - this way we can change it only when necessary</p>
+
+<h2><img src="/images/gdbcondbp3.png" alt="gdb conditional breakpoint no source" /></h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDB]]></title>
@@ -634,63 +715,6 @@ below we see the next instruction</p>
 <p>  <strong>step</strong> &amp; <strong>stepi</strong> help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
 
 <p><img src="/images/gdbstep.png" alt="gdb step" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[GDB]]></title>
-    <link href="http://ma11ock.github.io/blog/2016/04/15/gdbdbg/"/>
-    <updated>2016-04-15T07:54:38-05:00</updated>
-    <id>http://ma11ock.github.io/blog/2016/04/15/gdbdbg</id>
-    <content type="html"><![CDATA[<h2>gdb debug symbols</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
-
-<p>  This section gives various information about the variables, functions, etc in a binary that can be read by the debugger.
-  We will go over compiling source code with gdb debug symbols, what this allows to be read, as well as adding to, and stripping symbols from, a binary.</p>
-
-<!--more-->
-
-
-<ul>
-<li>can be part of the binary or a separate file</li>
-<li><strong>gcc -ggdb</strong> to compile with debug symbols for gdb</li>
-</ul>
-
-
-<p><img src="/images/gdbinfovar.png" alt="gdb info variables" /></p>
-
-<ul>
-<li><strong>list</strong> will drop us to the main function if it has the source available</li>
-<li><strong>list 3</strong> will take you to that line of the source</li>
-<li><strong>info variables</strong> if compiled with dbg symbols  will display found variables under defined for the source file</li>
-<li>if not compiled with symbols or source not available, the variables may be found and listed under non-debugging symbols</li>
-<li><strong>info scope functionName</strong> will provide local variables</li>
-</ul>
-
-
-<p><img src="/images/gdbsymbols.png" alt="gdb info functions" /></p>
-
-<ul>
-<li>here we use info functions to display all functions found in the source with debug options given at compile time</li>
-</ul>
-
-
-<h2>stripping debug symbols</h2>
-
-<ul>
-<li><strong>objcopy &ndash;only-keep-debug binary dstfile</strong> used to strip debug symbols from a binary &amp; save symbols to file</li>
-<li><strong>strip &ndash;strip-debug binary</strong> used to strip symbols from binary - use <strong>&ndash;strip-uneeded</strong> to provide only enough to load binary (less information)</li>
-</ul>
-
-
-<h2>adding debug symbols</h2>
-
-<ul>
-<li><strong>symbol-file symbols</strong> used to add debug symbols file to binary without symbols at runtime in <strong>gdb</strong></li>
-<li><strong>objcopy &ndash;add-gnu-debuglink=debug_symbols binary</strong> used to add debug symbols to stripped binary where <strong>debug_symbols</strong> is the symbols file, and <strong>binary</strong> is the stripped binary</li>
-</ul>
-
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: debugger | a m4lefic security blog]]></title>
   <link href="http://ma11ock.github.io/blog/categories/debugger/atom.xml" rel="self"/>
   <link href="http://ma11ock.github.io/"/>
-  <updated>2016-05-16T10:06:20-05:00</updated>
+  <updated>2016-05-16T10:59:19-05:00</updated>
   <id>http://ma11ock.github.io/</id>
   <author>
     <name><![CDATA[m4lefic]]></name>
@@ -12,6 +12,87 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[GDB]]></title>
+    <link href="http://ma11ock.github.io/blog/2016/05/16/gdb/"/>
+    <updated>2016-05-16T10:10:39-05:00</updated>
+    <id>http://ma11ock.github.io/blog/2016/05/16/gdb</id>
+    <content type="html"><![CDATA[<h2>gdb conditional breakpoints</h2>
+
+<p><em>Notes and material referenced from SecurityTube GDB Primer</em></p>
+
+<p>This section goes over setting conditional breakpoints. When regular breakpoints aren&rsquo;t giving us the information we need when we need it we might want a conditional breakpoint.
+For example, if you only want to examine some memory at a certain place in a loop you would set a conditional breakpoint.</p>
+
+<!--more-->
+
+
+<h2>conditional breakpoints break only if a condition is met</h2>
+
+<p>if we run our program with debugging symbols, we see that we have a while loop that counts down</p>
+
+<p>let&rsquo;s set a breakpoint on line 10 <code>(gdb) b 10</code></p>
+
+<p>if we run the program with any argument <code>(gdb) run testing</code> we see that our breakpoint is hit each time counter decrements</p>
+
+<p>ok, this is a relatively small loop, but what if we want have a larger loop and are only interested in stopping at a specific point - what if we only want to break when counter = 5?</p>
+
+<pre><code>(gdb) info b
+(gdb) condition 1 counter == 5
+</code></pre>
+
+<p>we examine our breakpoints, to see which Num is being assigned to the breakpoint we&rsquo;re interested in - here we only have 1 so that&rsquo;s easy enough</p>
+
+<p>next we set our conditional breakpoint using the Num assigned to our breakpoint &amp; then give the condition - counter == 5, we want to only break once counter is equal to 5</p>
+
+<p>if we <code>(gdb) c</code> we see that it counts down without breaking as it did previously until our counter is indeed 5 <code>(gdb) print counter</code></p>
+
+<h2><img src="/images/gdbcondbp.png" alt="gdb conditional breakpoint" /></h2>
+
+<p>if we don’t have the source but want to apply a conditional bp we can still examine the assembly instructions to help us understand what&rsquo;s going on</p>
+
+<p><code>(gdb) info functions</code> sure enough nothing too useful here, so let&rsquo;s <code>(gdb) dis main</code></p>
+
+<p>in main we see the <code>: test eax,eax</code> instruction - which tells us that there is a string comparison in our code</p>
+
+<p>ok, it makes sense to set bp on test eax to see what&rsquo;s happening here (where we see if eax is 0 or not)</p>
+
+<p><code>(gdb) break *0x08048478</code></p>
+
+<p>if we run our program with a random argument <code>(gdb) run testing</code> our breakpoint is hit, now let&rsquo;s step to the next instruction <code>(gdb) stepi</code> and examine what the eax register is</p>
+
+<pre><code>(gdb) print $eax
+</code></pre>
+
+<p>eax is 1, ok, so if we <code>(gdb) stepi</code> again, we see that we are now at <em>(main+118)</em>, a mov instruction - we got here from the previous jne instruction that followed our test eax instruction</p>
+
+<p>so if we continue execution of our program <code>(gdb) c</code> we see the following printed - Sorry! Please try again!, now we know that if eax is 1 we will not hit our desired correct password function</p>
+
+<p><img src="/images/gdbcondbp2.png" alt="gdb conditional breakpoint no source" /></p>
+
+<hr />
+
+<p>so let&rsquo;s set eax to 1 - this is easy enough, by keeping what we already have - we just re-run the program <code>(gdb) run testing</code></p>
+
+<pre><code>(gdb) set $eax = 0
+(gdb) c
+</code></pre>
+
+<p>and now change the eax register to 0 and continue - sure enough we hit the correct password function</p>
+
+<p>however, taking what we previously learned about conditional breakpoints into consideration, we could have saved ourselves a lot of trouble by doing the following</p>
+
+<p>after setting our breakpoint on the test eax instruction, we could have set a conditional breakpoint like below</p>
+
+<pre><code>(gdb) condition 1 $eax !=0
+</code></pre>
+
+<p>so now it will only break when the eax register is not equal to 0, or when it fails the password check - this way we can change it only when necessary</p>
+
+<h2><img src="/images/gdbcondbp3.png" alt="gdb conditional breakpoint no source" /></h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[GDB]]></title>
@@ -634,75 +715,6 @@ below we see the next instruction</p>
 <p>  <strong>step</strong> &amp; <strong>stepi</strong> help step through the code <em>step goes line by line of the code &amp; stepi steps through 1 instruction at a time</em></p>
 
 <p><img src="/images/gdbstep.png" alt="gdb step" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[STRACE]]></title>
-    <link href="http://ma11ock.github.io/blog/2016/04/18/strace/"/>
-    <updated>2016-04-18T14:11:51-05:00</updated>
-    <id>http://ma11ock.github.io/blog/2016/04/18/strace</id>
-    <content type="html"><![CDATA[<h2>strace</h2>
-
-<p><em>Notes and material referenced from SecurityTube GDB Primer &amp; strace man page</em></p>
-
-<ul>
-<li><em>may need to</em> <strong>apt-get install strace</strong> <em>on kali linux</em></li>
-</ul>
-
-
-<p>This section will cover the strace utility. Strace runs against the command or executable given. It intercepts the system calls
-for these processes and records them. This provides very useful diagnostic, and debugging to the user as well as the ability to profile programs.</p>
-
-<!--more-->
-
-
-<ul>
-<li><strong>usage:</strong> strace executable args</li>
-<li>system calls are displayed as they relate to our program line by line</li>
-<li><strong>-r</strong> is a relative timestamp that gives insight into how long each sys call takes</li>
-</ul>
-
-
-<p><img src="/images/stracertimestamp.png" alt="strace -r" /></p>
-
-<ul>
-<li>if we are interested in specific system calls or multiple calls in the executable</li>
-<li><strong>strace -e connect,write binary args</strong></li>
-</ul>
-
-
-<p><img src="/images/stracemultisyscall.png" alt="strace specific/multi sys calls" /></p>
-
-<h2>strace running process</h2>
-
-<ul>
-<li>we can also monitor sys calls of a running process</li>
-<li><strong>nc google.com 80</strong></li>
-</ul>
-
-
-<p><img src="/images/stracenc.png" alt="strace netcat example" /></p>
-
-<ul>
-<li>we netcat google on port 80</li>
-<li>we then grab the process ID of the running process &amp; then run strace on that PID</li>
-<li><strong>ps ax|grep nc</strong></li>
-<li><strong>strace -p PID</strong></li>
-</ul>
-
-
-<p><img src="/images/straceprocattach.png" alt="strace active process" /></p>
-
-<ul>
-<li>strace now says process 6697 attached, and is waiting</li>
-<li><p>if we enter <strong>GET /</strong> as seen in our netcat example picture - all of the sys calls used to perform that request are displayed in the above pic</p></li>
-<li><p>we can print a statistical summary of all the sys calls made</p></li>
-<li><strong>strace -c binary args</strong></li>
-</ul>
-
-
-<p><img src="/images/stracesummary.png" alt="strace sys call summary" /></p>
 ]]></content>
   </entry>
   
